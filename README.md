@@ -11,13 +11,15 @@ Cada documento contém:
 
 ## Por onde começar
 
-Leia primeiro o **`00-navegacao-global.md`** — ele define o layout master (header + sidebar + área de conteúdo), os componentes reutilizáveis (tabelas, drawers, filtros, paginação) e as convenções visuais. Todos os outros documentos fazem referência a ele.
+1. Se voce nao e familiarizado com os termos tecnicos do dominio (IEC 61850, GOOSE, SV, SCD, IED, etc.), comece pelo **`glossary.md`** — ele explica todas as siglas e termos tecnicos usados nos documentos.
+2. Em seguida, leia o **`00-navegacao-global.md`** — ele define o layout master (header + sidebar + area de conteudo), os componentes reutilizaveis (tabelas, drawers, filtros, paginacao) e as convencoes visuais. Todos os outros documentos fazem referencia a ele.
 
 ## Arquivos
 
 | Arquivo | Tela | Descrição |
 |---|---|---|
-| `00-navegacao-global.md` | — | Layout master, convenções, padrões reutilizáveis, RBAC |
+| `glossary.md` | — | Glossario de siglas e termos tecnicos do dominio |
+| `00-navegacao-global.md` | — | Layout master, convencoes, padroes reutilizaveis, RBAC |
 | `01-tela-inicial.md` | Topologia de Rede | Grafo de IEDs e redes com status em tempo real |
 | `02-alarmes.md` | Alarmes | Lista, filtros, detalhe e reconhecimento (ACK) |
 | `03-sincronismo-temporal.md` | Sincronismo PTP | Cards por IED + gráfico de acurácia temporal |
