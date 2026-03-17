@@ -1,163 +1,243 @@
-# 00 — Navegação Global, Layout Master e Convenções
+# 00 — Global Navigation, Master Layout & Conventions
 
-## 1. Introdução
+## 1. Introduction
 
-Este documento define os padrões visuais e de navegação compartilhados por todas as 8 telas do NMS (Network Monitoring System) para subestações IEC 61850. O público-alvo é o **designer UI/UX** responsável pela criação dos mockups no Figma.
+This document defines the visual and navigation standards shared by all screens of the NMS (Network Monitoring System) for IEC 61850 substations. The target audience is the **UI/UX designer** responsible for creating mockups in Figma.
 
-Todos os wireframes de tela (documentos `01` a `08`) fazem referência a este documento como fonte de verdade para:
+All screen wireframes (documents `01` to `09`) reference this document as the source of truth for:
 
-- Estrutura do layout master (header, sidebar, área de conteúdo)
-- Componentes reutilizáveis (tabelas, drawers, filtros, paginação, estados vazios)
-- Legenda de símbolos ASCII usados nos wireframes
-- Regras de RBAC (permissões por role)
-- Convenções de timestamp e formatação
+- Master layout structure (header, sidebar, content area)
+- Reusable components (tables, drawers, filters, pagination, empty states)
+- ASCII symbol legend used in wireframes
+- RBAC rules (role-based permissions)
+- Timestamp conventions and formatting
 
 ---
 
-## 2. Layout Master
+## 2. Master Layout
 
-O layout é composto por três regiões fixas — **Header**, **Sidebar** e **Área de Conteúdo** — presentes em todas as telas autenticadas. A única exceção é a **Tela 8 (Autenticação)**, que renderiza apenas a área de conteúdo centralizada, sem header nem sidebar.
+The layout is composed of three fixed regions — **Header**, **Sidebar** and **Content Area** — present on all authenticated screens. The only exception is **Screen 8 (Authentication)**, which renders only the centered content area without header or sidebar.
 
 ```
-+-----------------------------------------------------------------+
-| HEADER                                                          |
-| [Logo NMS]   Subestação: {nome}     Mon: * RUNNING    {user}    |
-+----------+------------------------------------------------------+
-| SIDEBAR  |                                                      |
-|          |              ÁREA DE CONTEÚDO                        |
-| 1. Top   |             (varia por tela)                         |
-| 2. Alm   |                                                      |
-| 3. PTP   |                                                      |
-| 4. Red   |                                                      |
-| 5. Com   |       +------------------------------+               |
-| 6. SNM   |       |    DRAWER (painel lateral)   |               |
-| 7. Cfg   |       |    (abre pela direita)       |               |
-|          |       +------------------------------+               |
-| [Logout] |                                                      |
-+----------+------------------------------------------------------+
++-------------------------------------------------------------------------+
+| HEADER                                                                  |
+| [GE Vernova Logo]  Network Monitoring System  Sub: {name}  [* RUNNING]  |
++----------------+--------------------------------------------------------+
+| SIDEBAR        |                                                        |
+|                |                    CONTENT AREA                        |
+| 1. Dashboard   |                   (varies per screen)                  |
+| 2. Protocols   |                                                        |
+|    2.1 GOOSE   |                                                        |
+|    2.2 SV      |            +------------------------------+            |
+|    2.3 MMS     |            |    DRAWER (side panel)       |            |
+|    2.4 PTP     |            |    (opens from the right)    |            |
+|    2.5 SNMP    |            +------------------------------+            |
+| 3. Alerts      |                                                        |
+| 4. Devices     |                                                        |
+| 5. Topology    |                                                        |
+| 6. Redundancy  |                                                        |
+| 7. Analytics   |                                                        |
+| 8. Log         |                                                        |
+| 9. Settings    |                                                        |
+|    9.1 SCD     |                                                        |
+|    9.2 Monitor |                                                        |
+|    9.3 MIB     |                                                        |
+|                |                                                        |
+| [User Area]    |                                                        |
++----------------+--------------------------------------------------------+
 ```
 
-**Observações:**
+**Notes:**
 
-- O header ocupa toda a largura superior da tela.
-- A sidebar é fixa à esquerda, com largura constante e scroll próprio quando necessário.
-- A área de conteúdo ocupa o espaço restante e possui scroll independente.
-- O drawer, quando aberto, sobrepõe parcialmente a área de conteúdo pela direita.
+- The header spans the full width at the top of the screen.
+- The sidebar is fixed on the left. It supports two states: **expanded** (255 px, icons + labels) and **collapsed** (~48 px, icons only). It has its own scroll when needed.
+- The content area fills the remaining space and has independent scroll.
+- The drawer, when open, partially overlays the content area from the right.
 
 ---
 
 ## 3. Header
 
-O header é uma barra horizontal fixa no topo, presente em todas as telas autenticadas.
+The header is a fixed horizontal bar at the top, present on all authenticated screens.
 
-### Componentes (da esquerda para a direita)
+### Components (left to right)
 
-| Componente | Posição | Descrição | Fonte de Dados |
+| Component | Position | Description | Data Source |
 |---|---|---|---|
-| **Logo NMS** | Canto esquerdo | Logotipo do sistema. Clique retorna à tela inicial (`/`). | Estático |
-| **Subestação ativa** | Centro-esquerda | Nome da subestação sendo monitorada. Exibe o campo `substationName` do SCD ativo. | `GET /api/v1/scds?latest=true` → obter `scdId` → `GET /api/v1/scds/{scdId}/summary` → campo `substationName` |
-| **Status do monitoramento** | Centro-direita | Indicador visual do estado atual do motor de monitoramento. | `GET /api/v1/monitoring` → campo `state` |
-| **Usuário logado** | Direita | `displayName` extraído dos claims do JWT. | Token JWT (client-side) |
+| **GE Vernova Logo** | Left | Brand logo (dark/light variants for theme). Click returns to Dashboard (`/`). | Static |
+| **Application Title** | Center | Displays "Network Monitoring System". | Static |
+| **Active Substation** | Center-right | Name of the substation being monitored. Shows the `substationName` field from the active SCD. | `GET /api/v1/scds?latest=true` → get `scdId` → `GET /api/v1/scds/{scdId}/summary` → `substationName` |
+| **Monitoring Status** | Right | Visual badge showing the current monitoring engine state. | `GET /api/v1/monitoring` → `state` |
 
-### Estados do monitoramento (campo `state`)
+### Monitoring States (`state` field)
 
-| Estado | Indicador Visual | Cor |
+| State | Visual Indicator | Color |
 |---|---|---|
-| `RUNNING` | `● RUNNING` | Verde |
-| `STARTING` | `● STARTING` | Verde (pulsante) |
-| `STOPPED` | `○ STOPPED` | Cinza |
-| `STOPPING` | `○ STOPPING` | Cinza (pulsante) |
-| `ERROR` | `⚠ ERROR` | Vermelho |
+| `RUNNING` | `* RUNNING` | Green |
+| `STARTING` | `* STARTING` | Green (pulsing) |
+| `STOPPED` | `o STOPPED` | Gray |
+| `STOPPING` | `o STOPPING` | Gray (pulsing) |
+| `ERROR` | `! ERROR` | Red |
 
-### Logout
+### Alert Banner
 
-O botão de logout fica posicionado no **rodapé da sidebar** (não no header). A ação de logout executa:
+When there are unacknowledged alarms (`alertCount > 0`), a conditional **amber banner** is displayed below the header bar spanning full width.
 
 ```
-DELETE /api/v1/sessions/current
++-----------------------------------------------------------------------+
+| ! {count} alerts waiting for acknowledgement       [Go to Alerts]     |
++-----------------------------------------------------------------------+
 ```
 
-Após o logout, o usuário é redirecionado para a tela de autenticação (`/login`).
+- The banner includes the alarm count and a button linking to `/alarms`.
+- The banner is hidden when there are no unacknowledged alarms.
 
 ---
 
-## 4. Sidebar (Menu de Navegação)
+## 4. Sidebar (Navigation Menu)
 
-A sidebar é um painel vertical fixo à esquerda, presente em todas as telas autenticadas. Na **Tela 8 (Autenticação)** a sidebar não é exibida.
+The sidebar is a fixed vertical panel on the left, present on all authenticated screens. On **Screen 8 (Authentication)** the sidebar is not displayed.
 
-### Itens do menu
+### Menu Items
 
-| # | Item | Ícone sugerido | Rota | Observação |
+| # | Item | Icon (Phosphor) | Route | Note |
 |---|---|---|---|---|
-| 1 | Topologia | rede/grafo | `/` | Tela inicial. Exibida ao fazer login ou clicar no logo. |
-| 2 | Alarmes | sino | `/alarmes` | Badge com contagem de alarmes não reconhecidos: `GET /api/v1/alarms?ack=false` → `meta.total`. |
-| 3 | Sincronismo | relógio | `/sincronismo` | Sincronismo temporal (PTP). |
-| 4 | Redundância | escudo | `/redundancia` | **Desabilitado/oculto** até a API HSR/PRP ser definida. |
-| 5 | Comunicação | setas bidirecionais | `/comunicacao` | Dados de comunicação: GOOSE, SV, MMS. |
-| 6 | SNMP | terminal/rede | `/snmp` | Monitoramento SNMP de equipamentos de rede. |
-| 7 | Configuração | engrenagem | `/configuracao` | Upload de SCD, gerenciamento de MIBs, controle de monitoramento. |
-| — | Logout | saída | — | Posicionado no rodapé da sidebar, separado visualmente dos itens de navegação. |
+| 1 | Dashboard | SquaresFour | `/` | Landing page after login. |
+| 2 | Protocols | Lightning | submenu | Expandable submenu. |
+| 2.1 | → GOOSE | — | `/goose` | — |
+| 2.2 | → Sampled Values | — | `/sampled-values` | — |
+| 2.3 | → MMS | — | `/mms` | — |
+| 2.4 | → PTP | — | `/ptp` | — |
+| 2.5 | → SNMP | — | `/snmp` | — |
+| 3 | Alerts | Warning | `/alarms` | Badge with unacknowledged alarm count: `GET /api/v1/alarms?ack=false` → `meta.total`. |
+| 4 | Devices | Network | `/connections` | IED connections view. |
+| 5 | Topology | BoundingBox | `/topology` | Substation topology graph. |
+| 6 | Redundancy | ShieldCheck | `/redundancy` | HSR/PRP redundancy view. Planned — will be added to sidebar in VER-550. |
+| 7 | Analytics | ChartBar | `/analytics` | — |
+| 8 | Log | ClockCounterClockwise | `/log` | — |
+| 9 | Settings | GearSix | submenu | Expandable submenu. |
+| 9.1 | → SCD | — | `/settings/scd` | SCD upload and management. |
+| 9.2 | → Monitoring | — | `/settings/monitoring` | Start/stop monitoring engine. |
+| 9.3 | → MIB | — | `/settings/mib` | MIB management. |
+| — | User Area | — | — | Footer of the sidebar, separated visually from nav items. |
 
-### Comportamento
+### Sidebar States
 
-- O item ativo (tela atual) deve ter destaque visual claro (fundo colorido, borda lateral ou ícone preenchido).
-- A sidebar é **persistente** — sempre visível, sem opção de colapsar.
-- O badge de alarmes no item "Alarmes" é atualizado periodicamente (polling ou evento) e exibe apenas a contagem de alarmes com `ack=false`.
-- O item "Redundância" deve ficar oculto ou desabilitado (com tooltip explicativo) enquanto a API HSR/PRP não estiver implementada.
+The sidebar supports two display states, toggled by the user:
+
+| State | Width | Content | Submenus |
+|---|---|---|---|
+| **Expanded** | 255 px | Icons + labels | Visible when parent is open. Children shown with left border indent. Caret indicator: `>` (collapsed) / `v` (expanded). |
+| **Collapsed** | ~48 px | Icons only (32×32 touch targets) | Not displayed. Parent icons toggle internal open state; submenu becomes visible when sidebar is expanded again. |
+
+### Submenu Behavior
+
+- Click on a parent item (Protocols, Settings) to **expand or collapse** its children.
+- Submenus are only visible in **expanded** sidebar mode.
+- Children are displayed with a **left border indent** below the parent item.
+- If a child route is active on page load, the parent submenu **auto-expands**.
+
+### Active Item Indication
+
+- The active item (current screen) has a clear visual highlight (colored background with primary color).
+- For **direct links**: active when `pathname === route`.
+- For **parent items**: highlighted when any child route matches the current pathname.
+
+### User Area
+
+The user area is positioned at the **bottom of the sidebar**, separated from navigation items by a top border.
+
+**Expanded state:**
+
+```
++------------------------------------------+
+| (avatar) Admin User            [...]     |
+|          ADMIN                           |
++------------------------------------------+
+```
+
+**Collapsed state:**
+
+```
++--------+
+| [...]  |
+|  (av)  |
++--------+
+```
+
+**Components:**
+
+- **Avatar circle** — displays a user icon with primary color background.
+- **User name** — `displayName` from session/JWT claims.
+- **User role** — displayed below the name in muted text.
+- **Three-dot menu** `[⋮]` — opens a dropdown with:
+  - **Preferences** — navigates to `/preferences`.
+  - **Logout** — triggers the logout confirmation dialog.
+
+### Logout Flow
+
+The logout option is accessed via the **user area dropdown menu** (not a standalone sidebar item).
+
+1. User clicks "Logout" in the dropdown menu.
+2. A **confirmation dialog** appears (not a drawer):
+   - Title: "Logout"
+   - Description: "Are you sure you want to logout?"
+   - Actions: [Cancel] [Logout]
+3. On confirmation: `POST /api/auth/logout` → redirect to `/login`.
 
 ---
 
-## 5. Convenções dos Wireframes ASCII
+## 5. ASCII Wireframe Conventions
 
-Todos os documentos de wireframe (`01` a `08`) utilizam a seguinte legenda de símbolos:
+All wireframe documents (`01` to `09`) use the following symbol legend:
 
 ```
-+------------------+   Bloco/container com borda
-|  Conteúdo                                    |
++----------------------------------------------+   Block/container with border
+|  Content                                     |
 +----------------------------------------------+
 
-[Botão]                Botão clicável
-[Botão (desabilitado)] Botão desabilitado por role/estado
+[Button]                Clickable button
+[Button (disabled)]     Button disabled by role/state
 
-< Link de navegação >  Link para outra tela
+< Navigation link >     Link to another screen
 
-(...expandível...)     Área colapsável/expansível
+(...expandable...)      Collapsible/expandable area
 
-> Ação                 Fluxo de interação (resultado de clique)
+> Action                Interaction flow (click result)
 
-*  Estado ativo        Indicador de status (verde)
-o  Estado inativo      Indicador de status (cinza)
-!  Alerta/warning     Indicador de status (amarelo)
-X  Erro/fechar        Indicador de erro (vermelho) / Botão fechar [X]
+*  Active state         Status indicator (green)
+o  Inactive state       Status indicator (gray)
+!  Alert/warning        Status indicator (yellow)
+X  Error/close          Error indicator (red) / Close button [X]
 
-{Filtro v}             Dropdown/select
-[____]                 Campo de texto/input
-(*) / o                  Radio button (selecionado / não)
-[x] / [ ]                  Checkbox (marcado / não)
+{Filter v}              Dropdown/select
+[____]                  Text input field
+(*) / o                 Radio button (selected / not)
+[x] / [ ]               Checkbox (checked / not)
 
-< 1 2 3 ... N >        Paginação
+< 1 2 3 ... N >         Pagination
 ```
 
 ---
 
-## 6. Padrões Comuns (Componentes Reutilizáveis)
+## 6. Common Patterns (Reusable Components)
 
-Os componentes abaixo são referenciados por múltiplas telas. O designer deve criar componentes Figma reutilizáveis para cada um deles.
+The components below are referenced by multiple screens. The designer should create reusable Figma components for each of them.
 
 ---
 
-### 6.1 Paginação
+### 6.1 Pagination
 
-Todas as listagens da API são paginadas com os seguintes parâmetros:
+All API listings are paginated with the following parameters:
 
-| Parâmetro | Tipo | Padrão | Descrição |
+| Parameter | Type | Default | Description |
 |---|---|---|---|
-| `page` | integer | `1` | Número da página (1-based) |
-| `pageSize` | integer | `50` | Itens por página (máximo 200) |
-| `sort` | string | varia | Campo de ordenação |
-| `order` | string | `desc` | Direção: `asc` ou `desc` |
+| `page` | integer | `1` | Page number (1-based) |
+| `pageSize` | integer | `50` | Items per page (maximum 200) |
+| `sort` | string | varies | Sort field |
+| `order` | string | `desc` | Direction: `asc` or `desc` |
 
-A resposta da API inclui o objeto `meta` com a estrutura:
+The API response includes a `meta` object with the following structure:
 
 ```json
 {
@@ -169,229 +249,233 @@ A resposta da API inclui o objeto `meta` com a estrutura:
 }
 ```
 
-**Wireframe da paginação:**
+**Pagination wireframe:**
 
 ```
-< Anterior  Página 1 de 5  Próxima >   Exibindo 50 de 237
+< Previous  Page 1 of 5  Next >   Showing 50 of 237
 ```
 
-- O botão "Anterior" fica desabilitado na primeira página.
-- O botão "Próxima" fica desabilitado na última página.
-- O total de páginas é calculado no frontend: `Math.ceil(total / pageSize)`.
-- A contagem "Exibindo X de Y" informa quantos itens estão visíveis na página atual versus o total.
+- The "Previous" button is disabled on the first page.
+- The "Next" button is disabled on the last page.
+- Total pages calculated on the frontend: `Math.ceil(total / pageSize)`.
+- The "Showing X of Y" count indicates how many items are visible on the current page versus the total.
 
 ---
 
-### 6.2 Drawer (Painel Lateral)
+### 6.2 Drawer (Side Panel)
 
-O drawer é o padrão principal para exibição de detalhes. **Não são usados modais/pop-ups em nenhuma tela do sistema** — toda visualização de detalhe é feita via drawer.
+The drawer is the primary pattern for displaying details. **No modals/pop-ups are used in any screen** — all detail views use the drawer.
 
-**Características:**
+**Characteristics:**
 
-- Abre pela **direita**, sobrepondo parcialmente a área de conteúdo.
-- Largura: aproximadamente **40% da área de conteúdo**.
-- Botão de fechar `[X]` no canto superior direito do drawer.
-- O conteúdo por trás do drawer pode ficar levemente escurecido (overlay opcional).
-- O drawer possui scroll próprio para conteúdos longos.
+- Opens from the **right**, partially overlaying the content area.
+- Width: approximately **40% of the content area**.
+- Close button `[X]` at the top-right corner of the drawer.
+- Content behind the drawer may be slightly dimmed (optional overlay).
+- The drawer has its own scroll for long content.
 
-**Wireframe do drawer:**
+**Drawer wireframe:**
 
 ```
                     +---------------------------+
                     | [X]                       |
-                    | Título do Item            |
+                    | Item Title                |
                     | ---------------------     |
-                    | Campo: Valor              |
-                    | Campo: Valor              |
+                    | Field: Value              |
+                    | Field: Value              |
                     |                           |
-                    | [Ação Principal]          |
+                    | [Primary Action]          |
                     +---------------------------+
 ```
 
 ---
 
-### 6.3 Tabela de Dados
+### 6.3 Data Table
 
-Padrão para todas as listagens tabulares do sistema.
+Standard pattern for all tabular listings in the system.
 
-**Características:**
+**Characteristics:**
 
-- Colunas com suporte a **ordenação** (indicada pelas setas `▲`/`▼`).
-- Clique na linha abre o drawer com os detalhes do item.
-- Paginação posicionada abaixo da tabela (conforme seção 6.1).
-- Linhas podem ter destaque visual por severidade ou estado (ex: alarmes críticos em vermelho).
+- Columns support **sorting** (indicated by arrows `▲`/`▼`).
+- Clicking a row opens the drawer with item details.
+- Pagination positioned below the table (per section 6.1).
+- Rows may have visual highlighting by severity or state (e.g., critical alarms in red).
 
-**Wireframe da tabela:**
+**Table wireframe:**
 
 ```
 +-----------+------------+----------+---------+
-| Coluna ^  | Coluna     | Coluna v | Coluna  |
+| Column ^  | Column     | Column v | Column  |
 +-----------+------------+----------+---------+
-| dado      | dado       | dado     | dado    |
-| dado      | dado       | dado     | dado    |
+| data      | data       | data     | data    |
+| data      | data       | data     | data    |
 +-----------+------------+----------+---------+
-< Anterior  Página 1 de N  Próxima >
+< Previous  Page 1 of N  Next >
 ```
 
 ---
 
-### 6.4 Barra de Filtros
+### 6.4 Filter Bar
 
-Posicionada **acima da tabela de dados**, permite ao usuário refinar os resultados exibidos.
+Positioned **above the data table**, allows the user to refine displayed results.
 
-**Características:**
+**Characteristics:**
 
-- Filtros são aplicados como query parameters na chamada à API.
-- O botão "Limpar" reseta todos os filtros para o estado padrão.
-- Filtros de data utilizam campos `De` / `Até` (mapeados para `fromUtc` / `toUtc` na API).
+- Filters are applied as query parameters in the API call.
+- The "Clear" button resets all filters to their default state.
+- Date filters use `From` / `To` fields (mapped to `fromUtc` / `toUtc` in the API).
 
-**Wireframe da barra de filtros:**
+**Filter bar wireframe:**
 
 ```
 +-----------------------------------------------------+
-| {Filtro 1 v}  {Filtro 2 v}  [De: ____] [Até: ____]  |
-|                                         [Limpar]    |
+| {Filter 1 v}  {Filter 2 v}  [From: ____] [To: ____] |
+|                                          [Clear]    |
 +-----------------------------------------------------+
 ```
 
 ---
 
-### 6.5 Estado Vazio
+### 6.5 Empty State
 
-Exibido quando uma listagem não possui itens para mostrar (filtro sem resultados, nenhum dado cadastrado, etc.).
+Displayed when a listing has no items to show (filter with no results, no data registered, etc.).
 
-**Características:**
+**Characteristics:**
 
-- Centralizado na área de conteúdo.
-- Ícone ilustrativo relacionado ao contexto (ex: sino para alarmes, engrenagem para configuração).
-- Mensagem descritiva do motivo do estado vazio.
-- Link de ação sugerida quando aplicável (ex: "Faça upload de um arquivo SCD").
+- Centered in the content area.
+- Illustrative icon related to the context (e.g., bell for alarms, gear for settings).
+- Descriptive message explaining the empty state reason.
+- Suggested action link when applicable (e.g., "Upload an SCD file").
 
-**Wireframe do estado vazio:**
+**Empty state wireframe:**
 
 ```
 +---------------------------------------------+
 |                                             |
-|          (ícone ilustrativo)                |
+|          (illustrative icon)                |
 |                                             |
-|     Mensagem descritiva do estado vazio     |
-|     < Link de ação sugerida >               |
+|     Descriptive empty state message         |
+|     < Suggested action link >               |
 |                                             |
 +---------------------------------------------+
 ```
 
 ---
 
-### 6.6 Feedback de Erro
+### 6.6 Error Feedback
 
-Mensagens de erro são exibidas **inline** (nunca em modal). O padrão é um banner colorido no topo da área de conteúdo.
+Error messages are displayed **inline** (never in a modal). The pattern is a colored banner at the top of the content area.
 
-**Características:**
+**Characteristics:**
 
-- Ícone de alerta à esquerda.
-- Mensagem de erro descritiva.
-- Detalhes técnicos quando aplicável (código de erro, endpoint, etc.).
-- Botão de fechar `[X]` à direita.
-- Cores: vermelho para erros, amarelo para warnings.
+- Alert icon on the left.
+- Descriptive error message.
+- Technical details when applicable (error code, endpoint, etc.).
+- Close button `[X]` on the right.
+- Colors: red for errors, yellow for warnings.
 
-**Wireframe do feedback de erro:**
-
-```
-+- ! ----------------------------------------- +
-| Mensagem de erro descritiva                  |
-| Detalhes técnicos (quando aplicável)    [X]  |
-+----------------------------------------------+
-```
-
----
-
-### 6.7 Campos Dinâmicos (chave-valor)
-
-Alguns campos da API possuem `additionalProperties: true`, o que significa que a estrutura de chaves não é fixa. Exemplos:
-
-- `Alarm.details` — varia por tipo de alarme
-- `MetricPoint.metrics` — pares chave-valor que diferem por protocolo
-- `Scd.parsed` — conteúdo completo do SCD parseado
-- `ScdProtocolDetailsResponse.data` — específico por protocolo
-
-Esses campos devem ser renderizados como **tabela chave-valor dinâmica**, sem componentes hardcoded para chaves específicas.
-
-**Wireframe de campos dinâmicos:**
+**Error feedback wireframe:**
 
 ```
-+------------------+--------------------+
-| Chave            | Valor              |
-+------------------+--------------------+
-| campo1           | valor1             |
-| campo2           | valor2             |
-+------------------+--------------------+
++-------------------------------------------------+
+| ! Descriptive error message                     |
+| Technical details (when applicable)       [X]   |
++-------------------------------------------------+
 ```
 
 ---
 
-## 7. Permissões por Role (RBAC)
+### 6.7 Dynamic Fields (Key-Value)
 
-O sistema possui três roles de acesso, definidos pelo enum `UserRole` da API:
+Some API fields have `additionalProperties: true`, meaning the key structure is not fixed. Examples:
 
-| Role | Descrição | Ações permitidas |
+- `Alarm.details` — varies by alarm type
+- `MetricPoint.metrics` — key-value pairs that differ by protocol
+- `Scd.parsed` — full parsed SCD content
+- `ScdProtocolDetailsResponse.data` — protocol-specific
+
+These fields should be rendered as a **dynamic key-value table**, without hardcoded components for specific keys.
+
+**Dynamic fields wireframe:**
+
+```
++------------------+--------------------+
+| Key              | Value              |
++------------------+--------------------+
+| field1           | value1             |
+| field2           | value2             |
++------------------+--------------------+
+```
+
+---
+
+## 7. Role-Based Permissions (RBAC)
+
+The system has three access roles, defined by the `UserRole` API enum:
+
+| Role | Description | Allowed Actions |
 |---|---|---|
-| **ADMIN** | Administrador do sistema | Todas as ações: configuração (upload de SCD, gerenciamento de MIBs), controle de monitoramento (start/stop), reconhecimento de alarmes (ACK), visualização de todas as telas. |
-| **OPERATOR** | Operador da subestação | Controle de monitoramento (start/stop), reconhecimento de alarmes (ACK), visualização de todas as telas. **Sem acesso** a configuração de SCD ou MIBs. |
-| **VIEWER** | Visualizador somente-leitura | Apenas visualização. Nenhuma ação de escrita (sem start/stop, sem ACK, sem configuração). |
+| **ADMIN** | System administrator | All actions: configuration (SCD upload, MIB management), monitoring control (start/stop), alarm acknowledgement (ACK), viewing all screens. |
+| **OPERATOR** | Substation operator | Monitoring control (start/stop), alarm acknowledgement (ACK), viewing all screens. **No access** to SCD or MIB configuration. |
+| **VIEWER** | Read-only viewer | View only. No write actions (no start/stop, no ACK, no configuration). |
 
-### Regra geral de exibição
+### General Display Rule
 
-- Botões e ações **não disponíveis** para o role do usuário devem ser **ocultados** (não exibidos).
-- **Exceção**: quando o usuário precisa saber que a ação existe, mas não tem permissão, o botão deve ser exibido como **desabilitado** com tooltip explicativo (ex: "Apenas administradores podem realizar esta ação").
-- A decisão entre ocultar ou desabilitar deve ser avaliada caso a caso em cada wireframe de tela.
+- Buttons and actions **unavailable** to the user's role should be **hidden** (not displayed).
+- **Exception**: when the user needs to know the action exists but lacks permission, the button should be displayed as **disabled** with an explanatory tooltip (e.g., "Only administrators can perform this action").
+- The decision to hide or disable should be evaluated case by case in each screen wireframe.
 
-### Resumo de permissões por funcionalidade
+### Permission Summary by Feature
 
-| Funcionalidade | ADMIN | OPERATOR | VIEWER |
+| Feature | ADMIN | OPERATOR | VIEWER |
 |---|---|---|---|
-| Visualizar todas as telas | Sim | Sim | Sim |
-| Start/Stop monitoramento | Sim | Sim | Nao |
-| ACK alarmes | Sim | Sim | Nao |
-| Upload de SCD | Sim | Nao | Nao |
-| Confirmar/Rejeitar SCD | Sim | Nao | Nao |
-| Gerenciar MIBs | Sim | Nao | Nao |
-| Download de PCAPs | Sim | Sim | Sim |
+| View all screens | Yes | Yes | Yes |
+| Start/Stop monitoring | Yes | Yes | No |
+| ACK alarms | Yes | Yes | No |
+| Upload SCD | Yes | No | No |
+| Confirm/Reject SCD | Yes | No | No |
+| Manage MIBs | Yes | No | No |
+| Download PCAPs | Yes | Yes | Yes |
 
 ---
 
 ## 8. Timestamps
 
-### Convenção da API
+### API Convention
 
-- Todos os timestamps retornados pela API estão em **UTC** no formato **ISO 8601** (ex: `2026-02-19T14:30:00Z`).
-- Os campos seguem a convenção de nomenclatura `*Utc` (ex: `createdAtUtc`, `updatedAtUtc`, `timestampUtc`, `parsedAtUtc`).
+- All timestamps returned by the API are in **UTC** in **ISO 8601** format (e.g., `2026-02-19T14:30:00Z`).
+- Fields follow the `*Utc` naming convention (e.g., `createdAtUtc`, `updatedAtUtc`, `timestampUtc`, `parsedAtUtc`).
 
-### Exibição no Frontend
+### Frontend Display
 
-- O frontend é responsável por converter os timestamps UTC para o **fuso horário local do usuário** antes de exibir.
-- Formato de exibição sugerido (padrão brasileiro): `DD/MM/YYYY HH:mm:ss`
-- Exemplos:
-  - API retorna: `2026-02-19T14:30:00Z`
-  - Exibição (BRT, UTC-3): `19/02/2026 11:30:00`
+- The frontend is responsible for converting UTC timestamps to the **user's local timezone** before display.
+- Suggested display format: `DD/MM/YYYY HH:mm:ss`
+- Examples:
+  - API returns: `2026-02-19T14:30:00Z`
+  - Display (BRT, UTC-3): `19/02/2026 11:30:00`
 
-### Recomendação para o designer
+### Recommendation for the Designer
 
-- Prever espaço suficiente para o formato `DD/MM/YYYY HH:mm:ss` (19 caracteres) em todas as colunas de data/hora nas tabelas.
-- Em contextos com espaço limitado (badges, cards), considerar formato abreviado: `DD/MM HH:mm`.
+- Allow sufficient space for the `DD/MM/YYYY HH:mm:ss` format (19 characters) in all date/time table columns.
+- In space-constrained contexts (badges, cards), consider abbreviated format: `DD/MM HH:mm`.
 
 ---
 
-## 9. Referência entre Documentos
+## 9. Document Reference
 
-Este é o índice completo dos wireframes do NMS. Cada documento detalha uma tela específica e referencia este documento (`00`) para os padrões compartilhados.
+This is the complete wireframe index for NMS. Each document details a specific screen and references this document (`00`) for shared patterns.
 
-| Arquivo | Tela | Rota | Descrição |
+| File | Screen | Route | Description |
 |---|---|---|---|
-| `01-tela-inicial.md` | Topologia de Rede | `/` | Visualização da topologia da subestação com IEDs, redes e fluxos GOOSE/SV. Tela inicial após login. |
-| `02-alarmes.md` | Alarmes | `/alarmes` | Listagem, filtros, detalhes e reconhecimento (ACK) de alarmes do sistema. |
-| `03-sincronismo-temporal.md` | Sincronismo Temporal (PTP) | `/sincronismo` | Monitoramento de sincronização PTP (Precision Time Protocol) dos IEDs. |
-| `04-redundancia-rede.md` | Redundância de Rede (HSR/PRP) | `/redundancia` | Monitoramento de protocolos de redundância de rede. **PENDENTE** — aguardando definição da API. |
-| `05-comunicacao-dados.md` | Comunicação de Dados | `/comunicacao` | Monitoramento de comunicação GOOSE, SV e MMS entre IEDs. |
-| `06-snmp.md` | SNMP | `/snmp` | Monitoramento SNMP de switches e equipamentos de rede da subestação. |
-| `07-configuracao.md` | Configuração | `/configuracao` | Upload/gerenciamento de SCD, controle de monitoramento e gerenciamento de MIBs. |
-| `08-autenticacao.md` | Autenticação | `/login` | Tela de login. Única tela sem header e sidebar. |
+| `09-dashboard.md` | Dashboard | `/` | **NEW** — Substation overview. Landing page after login. |
+| `01-tela-inicial.md` | Topology | `/topology` | Substation topology with IEDs, networks, and GOOSE/SV flows. No longer the landing page. |
+| `02-alarmes.md` | Alarms | `/alarms` | Alarm listing, filters, details, and acknowledgement (ACK). |
+| `03-sincronismo-temporal.md` | PTP Synchronization | `/ptp` | PTP (Precision Time Protocol) synchronization monitoring of IEDs. |
+| `04-redundancia-rede.md` | Redundancy (HSR/PRP) | `/redundancy` | HSR/PRP network redundancy monitoring. |
+| `05-comunicacao-dados.md` | GOOSE / SV / MMS | `/goose`, `/sampled-values`, `/mms` | Protocol communication monitoring. Individual routes per protocol. |
+| `06-snmp.md` | SNMP | `/snmp` | SNMP monitoring of switches and network equipment. |
+| `07-configuracao.md` | Settings | `/settings/scd`, `/settings/monitoring`, `/settings/mib` | SCD management, monitoring control, and MIB management. Sub-routes per tab. |
+| `08-autenticacao.md` | Authentication | `/login` | Login screen. Only screen without header and sidebar. |
+| — | Connections | `/connections` | Wireframe pending. |
+| — | Analytics | `/analytics` | Wireframe pending. |
+| — | Log | `/log` | Wireframe pending. |
