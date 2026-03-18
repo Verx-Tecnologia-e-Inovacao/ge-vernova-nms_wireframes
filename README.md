@@ -23,7 +23,7 @@ Cada documento contém:
 | `01-tela-inicial.md` | Topologia de Rede | Grafo de IEDs e redes com status em tempo real |
 | `02-alarmes.md` | Alarmes | Lista, filtros, detalhe e reconhecimento (ACK) |
 | `03-sincronismo-temporal.md` | Sincronismo PTP | Cards por IED + gráfico de acurácia temporal |
-| `04-redundancia-rede.md` | Redundância HSR/PRP | **Placeholder** — API pendente de definição |
+| `04-redundancia-rede.md` | Redundância HSR/PRP | Diagnosticos de redundancia derivados dos parsers GOOSE/SV |
 | `05-comunicacao-dados.md` | Comunicação | Mapas GOOSE, SV e MMS (3 sub-visões) |
 | `06-snmp.md` | SNMP | Dispositivos de rede e OIDs traduzidos via MIB |
 | `07-configuracao.md` | Configuração | Upload de SCD, controle de monitoramento, MIBs |

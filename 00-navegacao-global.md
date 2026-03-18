@@ -112,7 +112,7 @@ The sidebar is a fixed vertical panel on the left, present on all authenticated 
 | 3 | Alerts | Warning | `/alarms` | Badge with unacknowledged alarm count: `GET /api/v1/alarms?ack=false` → `meta.total`. |
 | 4 | Devices | Network | `/connections` | IED connections view. |
 | 5 | Topology | BoundingBox | `/topology` | Substation topology graph. |
-| 6 | Redundancy | ShieldCheck | `/redundancy` | HSR/PRP redundancy view. Planned — will be added to sidebar in VER-550. |
+| 6 | Redundancy | ShieldCheck | `/redundancy` | HSR/PRP redundancy diagnostics derived from GOOSE/SV parser data. |
 | 7 | Analytics | ChartBar | `/analytics` | — |
 | 8 | Log | ClockCounterClockwise | `/log` | — |
 | 9 | Settings | GearSix | submenu | Expandable submenu. |
