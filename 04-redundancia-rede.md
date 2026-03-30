@@ -444,6 +444,502 @@ If a stream has no PRP data and no HSR data (`prp_lans=[]` and `hsr_paths=[]` on
 - Metrics (steps 3-4) are fetched fresh on each polling cycle
 - Diagnostic computation is stateless — pure function of current metrics
 
+### Exemplos de JSON (para designs Figma)
+
+The examples below represent realistic data to populate the visual components. The redundancy page is a **derived view** — it extracts `prp_lans` and `hsr_paths` from GOOSE/SV metrics endpoints. The JSON structures below reflect the data as it comes from those endpoints, focused on the redundancy-relevant fields.
+
+#### Exemplo: Linha da tabela — stream GOOSE com PRP (redundancia Normal)
+
+A single GOOSE stream with PRP operating normally: LAN-A on eth0, LAN-B on eth1.
+
+```json
+{
+  "control_block": "AA1J1Q01A1LD0/LLN0$GO$gcbTrip",
+  "app_id": "0x0001",
+  "dataset": "AA1J1Q01A1LD0/LLN0$TripDataset",
+  "dataset_entries": 8,
+  "goose_id": "AA1J1Q01A1_Trip",
+  "dest_mac": "01:0c:cd:01:00:01",
+  "vlan_id": "0x0064",
+  "vlan_priority": 4,
+  "conf_rev": 1,
+  "ttl": 2000,
+  "interfaces": ["eth0", "eth1"],
+  "stats": {
+    "eth0": {
+      "prp_lans": ["A"],
+      "hsr_paths": [],
+      "counters": {
+        "total_packets": 1024,
+        "lost_packets": 0,
+        "duplicates": 0
+      }
+    },
+    "eth1": {
+      "prp_lans": ["B"],
+      "hsr_paths": [],
+      "counters": {
+        "total_packets": 1024,
+        "lost_packets": 0,
+        "duplicates": 0
+      }
+    }
+  }
+}
+```
+
+**Derived fields for the table row:**
+
+| Field | Value |
+|---|---|
+| Protocol | GOOSE |
+| Stream ID | AA1J1Q01A1LD0/LLN0$GO$gcbTrip |
+| Publisher | AA1J1Q01 |
+| PRP LANs | A \| B |
+| HSR Paths | - |
+| Diagnostic | * Normal |
+
+#### Exemplo: Linha da tabela — stream SV sem redundancia
+
+An SV stream with no PRP trailer or HSR tag detected on any interface.
+
+```json
+{
+  "sv_id": "MU_IED03/LLN0$MU01",
+  "app_id": "0x4003",
+  "dest_mac": "01:0c:cd:04:00:06",
+  "vlan_id": ["0x0001"],
+  "vlan_priority": [4],
+  "dataset": "MU_IED03/LLN0$MSVCB01",
+  "dataset_entries": 8,
+  "conf_rev": [1],
+  "smp_synch": ["local_clock"],
+  "sampling_rate": 4800,
+  "nominal_freq": 60,
+  "interfaces": ["eth0"],
+  "stats": {
+    "eth0": {
+      "prp_lans": [],
+      "hsr_paths": [],
+      "counters": {
+        "total_samples": 9600,
+        "lost_packets": 0,
+        "duplicates": 0
+      }
+    }
+  }
+}
+```
+
+**Derived fields for the table row:**
+
+| Field | Value |
+|---|---|
+| Protocol | SV |
+| Stream ID | MU_IED03/LLN0$MU01 |
+| Publisher | MU_IED03 |
+| PRP LANs | - \| - |
+| HSR Paths | - |
+| Diagnostic | o None |
+
+#### Exemplo: Drawer completo — PRP Normal (AA1J1Q01 gcbTrip)
+
+Full drawer data for a healthy PRP stream. Includes stream identification, redundancy-by-interface table, and diagnostic.
+
+```json
+{
+  "control_block": "AA1J1Q01A1LD0/LLN0$GO$gcbTrip",
+  "app_id": "0x0001",
+  "dataset": "AA1J1Q01A1LD0/LLN0$TripDataset",
+  "dataset_entries": 8,
+  "goose_id": "AA1J1Q01A1_Trip",
+  "dest_mac": "01:0c:cd:01:00:01",
+  "vlan_id": "0x0064",
+  "vlan_priority": 4,
+  "conf_rev": 1,
+  "ttl": 2000,
+  "quality_bits": ["good"],
+  "simulated": [false],
+  "clock_failure": [false],
+  "clock_not_synchronized": [false],
+  "interfaces": ["eth0", "eth1"],
+  "stats": {
+    "eth0": {
+      "prp_lans": ["A"],
+      "hsr_paths": [],
+      "counters": {
+        "total_packets": 1024,
+        "number_of_events": 3,
+        "lost_packets": 0,
+        "lost_packets_ts": null,
+        "out_of_order": 0,
+        "out_of_order_ts": null,
+        "duplicates": 0,
+        "duplicates_ts": null,
+        "ied_restarts": 0,
+        "ied_restarts_ts": null,
+        "missed_events": 0,
+        "missed_events_ts": null
+      },
+      "timing": {
+        "min_time": 0.001,
+        "max_time": 1.002,
+        "transfer_time": 0.001245
+      }
+    },
+    "eth1": {
+      "prp_lans": ["B"],
+      "hsr_paths": [],
+      "counters": {
+        "total_packets": 1024,
+        "number_of_events": 3,
+        "lost_packets": 0,
+        "lost_packets_ts": null,
+        "out_of_order": 0,
+        "out_of_order_ts": null,
+        "duplicates": 0,
+        "duplicates_ts": null,
+        "ied_restarts": 0,
+        "ied_restarts_ts": null,
+        "missed_events": 0,
+        "missed_events_ts": null
+      },
+      "timing": {
+        "min_time": 0.001,
+        "max_time": 1.003,
+        "transfer_time": 0.001312
+      }
+    }
+  },
+  "_redundancy_diagnostic": {
+    "protocol": "PRP",
+    "severity": "Normal",
+    "label": "Normal",
+    "message": "PRP: LAN-A on eth0, LAN-B on eth1. Standard dual-LAN operation per IEC 62439-3."
+  }
+}
+```
+
+**Drawer sections derived from this data:**
+
+- **Stream Identification:** Protocol=GOOSE, Stream ID=AA1J1Q01A1LD0/LLN0$GO$gcbTrip, Publisher=AA1J1Q01, Dest MAC=01:0c:cd:01:00:01, Subnet=W01
+- **Redundancy by Interface:** eth0.prp_lans=["A"], eth1.prp_lans=["B"], both hsr_paths=[]
+- **Diagnostic:** * Normal -- PRP: LAN-A on eth0, LAN-B on eth1
+
+#### Exemplo: Drawer — PRP Warning (LANs invertidas)
+
+PRP stream with LANs swapped between interfaces. AA1J1Q02 gcbStatus.
+
+```json
+{
+  "control_block": "AA1J1Q02A1LD0/LLN0$GO$gcbStatus",
+  "app_id": "0x0002",
+  "dataset": "AA1J1Q02A1LD0/LLN0$StatusDataset",
+  "dataset_entries": 16,
+  "goose_id": "AA1J1Q02A1_Status",
+  "dest_mac": "01:0c:cd:01:00:02",
+  "vlan_id": "0x0064",
+  "vlan_priority": 4,
+  "conf_rev": 2,
+  "ttl": 2000,
+  "quality_bits": ["good"],
+  "simulated": [false],
+  "clock_failure": [false],
+  "clock_not_synchronized": [false],
+  "interfaces": ["eth0", "eth1"],
+  "stats": {
+    "eth0": {
+      "prp_lans": ["B"],
+      "hsr_paths": [],
+      "counters": {
+        "total_packets": 1020,
+        "number_of_events": 5,
+        "lost_packets": 2,
+        "lost_packets_ts": "2026-03-14T10:00:03.456789Z",
+        "out_of_order": 0,
+        "out_of_order_ts": null,
+        "duplicates": 0,
+        "duplicates_ts": null,
+        "ied_restarts": 0,
+        "ied_restarts_ts": null,
+        "missed_events": 0,
+        "missed_events_ts": null
+      },
+      "timing": {
+        "min_time": 0.001,
+        "max_time": 1.005,
+        "transfer_time": 0.001567
+      }
+    },
+    "eth1": {
+      "prp_lans": ["A"],
+      "hsr_paths": [],
+      "counters": {
+        "total_packets": 1022,
+        "number_of_events": 5,
+        "lost_packets": 0,
+        "lost_packets_ts": null,
+        "out_of_order": 0,
+        "out_of_order_ts": null,
+        "duplicates": 0,
+        "duplicates_ts": null,
+        "ied_restarts": 0,
+        "ied_restarts_ts": null,
+        "missed_events": 0,
+        "missed_events_ts": null
+      },
+      "timing": {
+        "min_time": 0.001,
+        "max_time": 1.004,
+        "transfer_time": 0.001489
+      }
+    }
+  },
+  "_redundancy_diagnostic": {
+    "protocol": "PRP",
+    "severity": "Warning",
+    "label": "LANs inverted",
+    "message": "PRP: LAN-B on eth0, LAN-A on eth1. Expected LAN-A on eth0 and LAN-B on eth1. Check cable connections."
+  }
+}
+```
+
+#### Exemplo: Drawer — PRP Error (mesma LAN em ambas interfaces)
+
+PRP stream with the same LAN detected on both interfaces. AA1J1Q03 gcbAlarm.
+
+```json
+{
+  "control_block": "AA1J1Q03A1LD0/LLN0$GO$gcbAlarm",
+  "app_id": "0x0003",
+  "dataset": "AA1J1Q03A1LD0/LLN0$AlarmDataset",
+  "dataset_entries": 12,
+  "goose_id": "AA1J1Q03A1_Alarm",
+  "dest_mac": "01:0c:cd:01:00:03",
+  "vlan_id": "0x0064",
+  "vlan_priority": 4,
+  "conf_rev": 1,
+  "ttl": 2000,
+  "quality_bits": ["good"],
+  "simulated": [false],
+  "clock_failure": [false],
+  "clock_not_synchronized": [false],
+  "interfaces": ["eth0", "eth1"],
+  "stats": {
+    "eth0": {
+      "prp_lans": ["A"],
+      "hsr_paths": [],
+      "counters": {
+        "total_packets": 1018,
+        "number_of_events": 2,
+        "lost_packets": 0,
+        "lost_packets_ts": null,
+        "out_of_order": 0,
+        "out_of_order_ts": null,
+        "duplicates": 0,
+        "duplicates_ts": null,
+        "ied_restarts": 0,
+        "ied_restarts_ts": null,
+        "missed_events": 0,
+        "missed_events_ts": null
+      },
+      "timing": {
+        "min_time": 0.001,
+        "max_time": 1.001,
+        "transfer_time": 0.001123
+      }
+    },
+    "eth1": {
+      "prp_lans": ["A"],
+      "hsr_paths": [],
+      "counters": {
+        "total_packets": 1016,
+        "number_of_events": 2,
+        "lost_packets": 0,
+        "lost_packets_ts": null,
+        "out_of_order": 0,
+        "out_of_order_ts": null,
+        "duplicates": 0,
+        "duplicates_ts": null,
+        "ied_restarts": 0,
+        "ied_restarts_ts": null,
+        "missed_events": 0,
+        "missed_events_ts": null
+      },
+      "timing": {
+        "min_time": 0.001,
+        "max_time": 1.002,
+        "transfer_time": 0.001198
+      }
+    }
+  },
+  "_redundancy_diagnostic": {
+    "protocol": "PRP",
+    "severity": "Error",
+    "label": "Same LAN on both",
+    "message": "PRP: LAN-A detected on both eth0 and eth1. Both interfaces are receiving from the same PRP LAN. This indicates a configuration or wiring error."
+  }
+}
+```
+
+#### Exemplo: Drawer — HSR Normal (ambos paths)
+
+SV stream on an HSR ring topology with both paths visible. MU_IED02.
+
+```json
+{
+  "sv_id": "MU_IED02/LLN0$MU01",
+  "app_id": "0x4002",
+  "dest_mac": "01:0c:cd:04:00:05",
+  "vlan_id": ["0x0001"],
+  "vlan_priority": [4],
+  "dataset": "MU_IED02/LLN0$MSVCB01",
+  "dataset_entries": 8,
+  "conf_rev": [1],
+  "smp_synch": ["local_clock"],
+  "sampling_rate": 4800,
+  "nominal_freq": 60,
+  "quality_bits": ["good"],
+  "simulated": [false],
+  "interfaces": ["eth0"],
+  "stats": {
+    "eth0": {
+      "prp_lans": [],
+      "hsr_paths": ["A", "B"],
+      "counters": {
+        "total_samples": 19200,
+        "lost_packets": 0,
+        "lost_packets_ts": null,
+        "out_of_order": 0,
+        "out_of_order_ts": null,
+        "duplicates": 0,
+        "duplicates_ts": null
+      },
+      "packet_interval": {
+        "nominal_us": 208.33,
+        "min_us": 205.12,
+        "min_ts": "2026-03-14T10:00:01.234567Z",
+        "max_us": 212.45,
+        "max_ts": "2026-03-14T10:00:03.456789Z",
+        "avg_us": 208.31,
+        "std_us": 1.24
+      }
+    }
+  },
+  "_redundancy_diagnostic": {
+    "protocol": "HSR",
+    "severity": "Normal",
+    "label": "Normal",
+    "message": "HSR: Both ring paths (A and B) visible on eth0. Normal ring operation per IEC 62439-3."
+  }
+}
+```
+
+#### Exemplo: Drawer — Sem redundancia
+
+SV stream with no PRP or HSR data detected. MU_IED03.
+
+```json
+{
+  "sv_id": "MU_IED03/LLN0$MU01",
+  "app_id": "0x4003",
+  "dest_mac": "01:0c:cd:04:00:06",
+  "vlan_id": ["0x0001"],
+  "vlan_priority": [4],
+  "dataset": "MU_IED03/LLN0$MSVCB01",
+  "dataset_entries": 8,
+  "conf_rev": [1],
+  "smp_synch": ["local_clock"],
+  "sampling_rate": 4800,
+  "nominal_freq": 60,
+  "quality_bits": ["good"],
+  "simulated": [false],
+  "interfaces": ["eth0"],
+  "stats": {
+    "eth0": {
+      "prp_lans": [],
+      "hsr_paths": [],
+      "counters": {
+        "total_samples": 9600,
+        "lost_packets": 0,
+        "lost_packets_ts": null,
+        "out_of_order": 0,
+        "out_of_order_ts": null,
+        "duplicates": 0,
+        "duplicates_ts": null
+      },
+      "packet_interval": {
+        "nominal_us": 208.33,
+        "min_us": 206.00,
+        "min_ts": "2026-03-14T10:00:00.500000Z",
+        "max_us": 210.50,
+        "max_ts": "2026-03-14T10:00:01.000000Z",
+        "avg_us": 208.30,
+        "std_us": 0.98
+      }
+    }
+  },
+  "_redundancy_diagnostic": {
+    "protocol": null,
+    "severity": "None",
+    "label": "No redundancy",
+    "message": "No PRP trailer or HSR tag detected on this stream. The stream may not be configured for redundant operation."
+  }
+}
+```
+
+#### Exemplo: Cenarios de diagnostico — resumo compacto
+
+Compact snippets showing the `prp_lans`/`hsr_paths` combinations and the resulting diagnostic label.
+
+**PRP Normal:**
+```json
+{ "eth0": { "prp_lans": ["A"], "hsr_paths": [] }, "eth1": { "prp_lans": ["B"], "hsr_paths": [] } }
+```
+Diagnostic: Normal -- LAN-A on eth0, LAN-B on eth1
+
+**PRP LANs inverted:**
+```json
+{ "eth0": { "prp_lans": ["B"], "hsr_paths": [] }, "eth1": { "prp_lans": ["A"], "hsr_paths": [] } }
+```
+Diagnostic: Warning -- LANs inverted, possible cable swap
+
+**PRP Same LAN on both:**
+```json
+{ "eth0": { "prp_lans": ["A"], "hsr_paths": [] }, "eth1": { "prp_lans": ["A"], "hsr_paths": [] } }
+```
+Diagnostic: Error -- Same LAN on both interfaces, configuration error
+
+**PRP Both LANs on both interfaces:**
+```json
+{ "eth0": { "prp_lans": ["A", "B"], "hsr_paths": [] }, "eth1": { "prp_lans": ["A", "B"], "hsr_paths": [] } }
+```
+Diagnostic: Error -- Topology problem, both LANs on both interfaces
+
+**PRP Asymmetric (one interface missing):**
+```json
+{ "eth0": { "prp_lans": ["A"], "hsr_paths": [] }, "eth1": { "prp_lans": [], "hsr_paths": [] } }
+```
+Diagnostic: Warning -- Asymmetric PRP, one interface missing
+
+**HSR Normal (both paths):**
+```json
+{ "eth0": { "prp_lans": [], "hsr_paths": ["A", "B"] } }
+```
+Diagnostic: Normal -- Both ring paths visible
+
+**HSR Partial ring break:**
+```json
+{ "eth0": { "prp_lans": [], "hsr_paths": ["A"] } }
+```
+Diagnostic: Warning -- Only one path visible, possible ring break
+
+**No redundancy:**
+```json
+{ "eth0": { "prp_lans": [], "hsr_paths": [] }, "eth1": { "prp_lans": [], "hsr_paths": [] } }
+```
+Diagnostic: No redundancy -- No PRP/HSR detected on this stream
+
 ---
 
 ## Interaction Flows
