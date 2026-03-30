@@ -15,7 +15,7 @@ O modelo de dados MMS e extensivel (`MmsMetricsIngestRequest` possui `additional
 ```
 +--------------------------------------------------------------------------------------------------+
 |  +- Header Global (ver 00-navegacao-global.md) ------------------------------------------+       |
-|  |  [Logo NMS]   Subestacao: MU_360_1    Mon: * RUNNING           operador@empresa.com   |       |
+|  |  [Logo NMS]   Subestacao: SE Exemplo   Mon: * RUNNING           operador@empresa.com   |       |
 |  +----------------------------------------------------------------------------------------+       |
 +----------+---------------------------------------------------------------------------------------+
 | SIDEBAR  |                                                                                       |
@@ -29,14 +29,16 @@ O modelo de dados MMS e extensivel (`MmsMetricsIngestRequest` possui `additional
 |   SV     |  |                                                                           |       |
 |   MMS    |  |  Conexao ^                   | Status          | Ultima Atualizacao       |       |
 |   SNMP   |  |  ----------------------------+-----------------+--------------------------|       |
-|   Cfg    |  |  L90_DIG/MMS_Server          | * Conectado     | 19/02/2026 14:32         |       |
-|          |  |  T60_DIG/MMS_Server          | * Conectado     | 19/02/2026 14:30         |       |
-|          |  |  MU_360_1/MMS_Server         | ! Timeout       | 19/02/2026 14:15         |       |
-|          |  |  MU320E_LAB/MMS_Server       | o Desconectado  | 19/02/2026 09:00         |       |
+|   Cfg    |  |  DUCD_3T3/MMS_Server         | * Conectado     | 27/03/2026 14:32         |       |
+|          |  |  DUPC_3L1/MMS_Server         | * Conectado     | 27/03/2026 14:30         |       |
+|          |  |  DUPC_0B/MMS_Server          | * Conectado     | 27/03/2026 14:28         |       |
+|          |  |  MU1_0P3/MMS_Server          | ! Timeout       | 27/03/2026 14:15         |       |
+|          |  |  MU2_3T3/MMS_Server          | * Conectado     | 27/03/2026 14:31         |       |
+|          |  |  PUPC_3P1/MMS_Server         | o Desconectado  | 27/03/2026 09:00         |       |
 |          |  |                                                                           |       |
 |          |  +----------------------------------------------------------------------------+       |
 |          |                                                                                       |
-|          |  < Anterior  Pagina 1 de 1  Proxima >    Exibindo 4 de 4                              |
+|          |  < Anterior  Pagina 1 de 1  Proxima >    Exibindo 6 de 42                             |
 |          |                                                                                       |
 | [Logout] |                                                                                       |
 +----------+---------------------------------------------------------------------------------------+
@@ -63,14 +65,14 @@ O modelo de dados MMS e extensivel (`MmsMetricsIngestRequest` possui `additional
                               +----------------------------------------------+
                               | [X]                                          |
                               |                                              |
-                              |  * L90_DIG — MMS                             |
+                              |  * DUCD_3T3 — MMS                            |
                               |  ----------------------------------------    |
                               |                                              |
                               |  -- Informacoes da Conexao --                |
                               |                                              |
-                              |  Conexao:           L90_DIG/MMS_Server       |
+                              |  Conexao:           DUCD_3T3/MMS_Server      |
                               |  Status:            * Conectado              |
-                              |  Ultima Atualizacao: 19/02/2026 14:32        |
+                              |  Ultima Atualizacao: 27/03/2026 14:32        |
                               |                                              |
                               |  -- Metricas (campos dinamicos) --           |
                               |  (additionalProperties do                    |
@@ -176,8 +178,8 @@ O modelo de dados MMS e extensivel (`MmsMetricsIngestRequest` possui `additional
 
 ```json
 {
-  "timestampUtc": "2026-02-19T14:32:00Z",
-  "hostId": "L90_DIG/MMS_Server",
+  "timestampUtc": "2026-03-27T14:32:00Z",
+  "hostId": "DUCD_3T3/MMS_Server",
   "metrics": {
     "status": "connected",
     "uptime_seconds": 86400,
@@ -193,8 +195,8 @@ O modelo de dados MMS e extensivel (`MmsMetricsIngestRequest` possui `additional
 
 ```json
 {
-  "timestampUtc": "2026-02-19T14:15:00Z",
-  "hostId": "MU_360_1/MMS_Server",
+  "timestampUtc": "2026-03-27T14:15:00Z",
+  "hostId": "MU1_0P3/MMS_Server",
   "metrics": {
     "status": "timeout",
     "uptime_seconds": 3600,
@@ -210,8 +212,8 @@ O modelo de dados MMS e extensivel (`MmsMetricsIngestRequest` possui `additional
 
 ```json
 {
-  "timestampUtc": "2026-02-19T09:00:00Z",
-  "hostId": "MU320E_LAB/MMS_Server",
+  "timestampUtc": "2026-03-27T09:00:00Z",
+  "hostId": "PUPC_3P1/MMS_Server",
   "metrics": {
     "status": "disconnected",
     "uptime_seconds": 0,
@@ -227,8 +229,8 @@ O modelo de dados MMS e extensivel (`MmsMetricsIngestRequest` possui `additional
 
 ```json
 {
-  "timestampUtc": "2026-02-19T14:32:00Z",
-  "hostId": "L90_DIG/MMS_Server",
+  "timestampUtc": "2026-03-27T14:32:00Z",
+  "hostId": "DUCD_3T3/MMS_Server",
   "metrics": {
     "status": "connected",
     "uptime_seconds": 86400,
@@ -287,7 +289,7 @@ O modelo de dados MMS e extensivel (`MmsMetricsIngestRequest` possui `additional
 ### 2. Clique em linha da tabela (abrir drawer)
 
 ```
-> Usuario clica em uma linha (ex: L90_DIG/MMS_Server)
+> Usuario clica em uma linha (ex: DUCD_3T3/MMS_Server)
 > Drawer abre pela direita com animacao slide-in
 > Exibe:
      - Informacoes da conexao (nome, status, ultima atualizacao)

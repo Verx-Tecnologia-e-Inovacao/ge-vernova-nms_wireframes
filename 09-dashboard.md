@@ -30,7 +30,7 @@ A topologia de rede, anteriormente a tela inicial, passa a estar disponivel em `
 |          |  +-Faixa 1 - Status Critico ------------------------------------------------------+    |
 | > Dash.  |  |                                                                                |    |
 |   Topol. |  |   +-Barra de Monitoramento (full-width) -----------------------------------+   |    |
-|   Alm(28)|  |   | * RUNNING desde 19/02/2026 10:00                                       |   |    |
+|   Alm(28)|  |   | * RUNNING desde 27/03/2026 10:00                                       |   |    |
 |   Sinc   |  |   +------------------------------------------------------------------------+   |    |
 |   Red    |  |                                                                                |    |
 |   Proto  |  |   +-Alarmes Ativos ---------------+   +-Diagnostics SCD --------------+        |    |
@@ -104,7 +104,7 @@ A topologia de rede, anteriormente a tela inicial, passa a estar disponivel em `
 |          |  +-Faixa 1 - Status Critico ------------------------------------------------------+    |
 | > Dash.  |  |                                                                                |    |
 |   Topol. |  |   +-Barra de Monitoramento (full-width) -----------------------------------+   |    |
-|   Alm    |  |   | o STOPPED desde 19/02/2026 15:30                                       |   |    |
+|   Alm    |  |   | o STOPPED desde 27/03/2026 15:30                                       |   |    |
 |   Sinc   |  |   +------------------------------------------------------------------------+   |    |
 |   Red    |  |                                                                                |    |
 |   Proto  |  |   +-Alarmes Ativos ---------------+   +-Diagnostics SCD --------------+        |    |
@@ -208,7 +208,7 @@ Exibido quando a chamada `GET /scds?latest=true` nao retorna nenhum SCD com stat
 |---|---|---|---|---|---|
 | 1 | `GET` | `/api/v1/scds?latest=true` | Obter o SCD ativo (bloqueante — determina se dashboard exibe dados ou estado vazio) | `scdId`, `status` | `GET /api/v1/scds?latest=true` → se `status != ACTIVE`, exibir estado vazio |
 | 2 | `GET` | `/api/v1/scds/{scdId}/summary` | Dados estaticos do SCD: IEDs, streams, subscriptions, diagnostics, vendors, MMS points, source files | `ieds`, `ieds_proxy`, `goose_streams`, `sv_streams`, `type{}`, `mms_points{}`, `subscriptions{}`, `diagnostics{}`, `vendors[]`, `source_files` | `GET /api/v1/scds/a1b2c3d4/summary` → preenche faixas 2, 3 e card diagnostics |
-| 3 | `GET` | `/api/v1/monitoring` | Estado do monitoramento em tempo real | `state` (RUNNING/STOPPED/ERROR), `sinceUtc` | `GET /api/v1/monitoring` → `state: "RUNNING"`, `sinceUtc: "2026-02-19T13:00:00Z"` |
+| 3 | `GET` | `/api/v1/monitoring` | Estado do monitoramento em tempo real | `state` (RUNNING/STOPPED/ERROR), `sinceUtc` | `GET /api/v1/monitoring` → `state: "RUNNING"`, `sinceUtc: "2026-03-27T13:00:00Z"` |
 | 4 | `GET` | `/api/v1/alarms?ack=false&severity={X}&pageSize=1` | Contagem de alarmes por severidade (4 chamadas paralelas: CRITICAL, MAJOR, MEDIUM, LOW) | `meta.total` (contagem total de alarmes para a severidade filtrada) | `GET /api/v1/alarms?ack=false&severity=CRITICAL&pageSize=1` → `meta.total: 3` |
 
 **Nota tecnica — contagem de alarmes por severidade:**
@@ -390,9 +390,9 @@ Retorna o SCD ativo. O campo `scdId` é usado como parâmetro para o endpoint de
       "fileName": "SubstationXYZ_2026.scd",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "ACTIVE",
-      "createdAtUtc": "2026-02-18T09:15:00Z",
-      "parsedAtUtc": "2026-02-18T09:15:42Z",
-      "activatedAtUtc": "2026-02-18T09:20:00Z"
+      "createdAtUtc": "2026-03-26T09:15:00Z",
+      "parsedAtUtc": "2026-03-26T09:15:42Z",
+      "activatedAtUtc": "2026-03-26T09:20:00Z"
     }
   ],
   "meta": {
@@ -414,12 +414,15 @@ Dados estáticos do SCD. Preenche faixas 2 e 3, e o card de diagnostics na faixa
   "scdId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
   "status": "ACTIVE",
   "substationName": "SubstationXYZ",
-  "parsedAtUtc": "2026-02-18T09:15:42Z",
+  "parsedAtUtc": "2026-03-26T09:15:42Z",
   "sourceFiles": [
     "SubstationXYZ_2026.scd",
-    "L90_DIG-Lab_20260129.CID",
-    "MU_360_1_20260129.CID",
-    "T60_DIG_20260129.CID"
+    "MU1_0P3.cid",
+    "DUPC_0B.CID",
+    "DUCD_3T3.CID",
+    "MU2_3T3.cid",
+    "DUPC_3L1.CID",
+    "PUPC_3P1.CID"
   ],
   "summary": {
     "ieds": 42,
@@ -478,28 +481,28 @@ Estado do monitoramento em tempo real. Preenche a barra de monitoramento na faix
 {
   "enabled": true,
   "state": "RUNNING",
-  "sinceUtc": "2026-02-19T13:00:00Z",
+  "sinceUtc": "2026-03-27T13:00:00Z",
   "monitorings": [
     {
       "id": "f1a2b3c4-d5e6-7890-abcd-111111111111",
       "protocol": "SV",
       "target": "LDTM1",
       "status": "running",
-      "updatedAtUtc": "2026-02-19T14:32:00Z"
+      "updatedAtUtc": "2026-03-27T14:32:00Z"
     },
     {
       "id": "f1a2b3c4-d5e6-7890-abcd-222222222222",
       "protocol": "GOOSE",
       "target": "GoCB01",
       "status": "running",
-      "updatedAtUtc": "2026-02-19T14:32:00Z"
+      "updatedAtUtc": "2026-03-27T14:32:00Z"
     },
     {
       "id": "f1a2b3c4-d5e6-7890-abcd-333333333333",
       "protocol": "PTP",
-      "target": "L90_DIG",
+      "target": "DUCD_3T3",
       "status": "running",
-      "updatedAtUtc": "2026-02-19T14:32:00Z"
+      "updatedAtUtc": "2026-03-27T14:32:00Z"
     }
   ],
   "stoppedAtUtc": null,
@@ -509,7 +512,7 @@ Estado do monitoramento em tempo real. Preenche a barra de monitoramento na faix
 
 **Dados para o Figma (estado RUNNING):**
 - Icone: `*` (verde)
-- Texto: `RUNNING desde 19/02/2026 10:00` (sinceUtc convertido para BRT UTC-3)
+- Texto: `RUNNING desde 27/03/2026 10:00` (sinceUtc convertido para BRT UTC-3)
 
 **Estado STOPPED (para wireframe alternativo):**
 
@@ -517,16 +520,16 @@ Estado do monitoramento em tempo real. Preenche a barra de monitoramento na faix
 {
   "enabled": false,
   "state": "STOPPED",
-  "sinceUtc": "2026-02-19T18:30:00Z",
+  "sinceUtc": "2026-03-27T18:30:00Z",
   "monitorings": [],
-  "stoppedAtUtc": "2026-02-19T18:30:00Z",
+  "stoppedAtUtc": "2026-03-27T18:30:00Z",
   "stoppedBy": "admin@empresa.com"
 }
 ```
 
 **Dados para o Figma (estado STOPPED):**
 - Icone: `o` (cinza)
-- Texto: `STOPPED desde 19/02/2026 15:30` (sinceUtc convertido para BRT UTC-3)
+- Texto: `STOPPED desde 27/03/2026 15:30` (sinceUtc convertido para BRT UTC-3)
 
 ---
 
@@ -543,14 +546,14 @@ Contagem de alarmes por severidade. Quatro chamadas paralelas, uma por severidad
       "scdId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
       "alarm": {
         "alarmId": "b1c2d3e4-f5a6-7890-bcde-111111111111",
-        "timestampUtc": "2026-02-19T17:32:01Z",
+        "timestampUtc": "2026-03-27T17:32:01Z",
         "type": "LOSS_OF_SIGNAL",
         "severity": "CRITICAL",
-        "summary": "Perda de sinal SV stream MU_360_1 LDTM1",
+        "summary": "Perda de sinal SV stream MU1_0P3 LDTM1",
         "details": {
           "streamId": "LDTM1/F4800S2I4U4_1",
-          "publisher": "MU_360_1",
-          "subscribers": "L90_DIG, T60_DIG"
+          "publisher": "MU1_0P3",
+          "subscribers": "DUCD_3T3, DUPC_3L1"
         },
         "occurrences": 3,
         "ack": false,
@@ -575,10 +578,10 @@ Contagem de alarmes por severidade. Quatro chamadas paralelas, uma por severidad
       "scdId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
       "alarm": {
         "alarmId": "b1c2d3e4-f5a6-7890-bcde-222222222222",
-        "timestampUtc": "2026-02-19T17:30:15Z",
+        "timestampUtc": "2026-03-27T17:30:15Z",
         "type": "JITTER_EXCEEDED",
         "severity": "MAJOR",
-        "summary": "Jitter SV acima do limiar MU320E_LAB",
+        "summary": "Jitter SV acima do limiar MU2_3T3",
         "details": {
           "streamId": "LDTM1/MSVCB01",
           "measuredJitter": "2.5ms",
@@ -607,12 +610,12 @@ Contagem de alarmes por severidade. Quatro chamadas paralelas, uma por severidad
       "scdId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
       "alarm": {
         "alarmId": "b1c2d3e4-f5a6-7890-bcde-333333333333",
-        "timestampUtc": "2026-02-19T16:10:44Z",
+        "timestampUtc": "2026-03-27T16:10:44Z",
         "type": "PACKET_LOSS",
         "severity": "MEDIUM",
-        "summary": "Perda de pacotes GOOSE GCB01 MU_360_1",
+        "summary": "Perda de pacotes GOOSE GCB01 MU1_0P3",
         "details": {
-          "controlBlock": "MU_360_1Master/LLN0$GO$GoCB01",
+          "controlBlock": "MU1_0P3CTRL/LLN0$GO$FastGOOSE1",
           "lossRate": "0.5%",
           "windowSeconds": 300
         },
@@ -639,12 +642,12 @@ Contagem de alarmes por severidade. Quatro chamadas paralelas, uma por severidad
       "scdId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
       "alarm": {
         "alarmId": "b1c2d3e4-f5a6-7890-bcde-444444444444",
-        "timestampUtc": "2026-02-19T15:05:22Z",
+        "timestampUtc": "2026-03-27T15:05:22Z",
         "type": "CONF_REV_MISMATCH",
         "severity": "LOW",
-        "summary": "confRev mismatch GOOSE L90_DIG GoCB02",
+        "summary": "confRev mismatch GOOSE DUCD_3T3 GoCB03",
         "details": {
-          "controlBlock": "L90_DIGMaster/LLN0$GO$GoCB02",
+          "controlBlock": "DUCD_3T3Master/LLN0$GO$GoCB03",
           "expectedConfRev": 1,
           "receivedConfRev": 2
         },
@@ -681,7 +684,7 @@ Contagem de alarmes por severidade. Quatro chamadas paralelas, uma por severidad
 - Usuario: `operador@empresa.com`
 
 **Faixa 1 — Status Critico:**
-- Barra de monitoramento: `RUNNING desde 19/02/2026 10:00`
+- Barra de monitoramento: `RUNNING desde 27/03/2026 10:00`
 - Alarmes: CRITICAL 3, MAJOR 5, MEDIUM 12, LOW 8
 - Diagnostics: Errors 38, Warnings 93, Info 3.095
 

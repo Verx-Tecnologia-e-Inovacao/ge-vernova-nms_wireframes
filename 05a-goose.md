@@ -6,7 +6,7 @@ Visualizar os control blocks GOOSE da subestacao, combinando dados estaticos ext
 
 **Escala real:** Em subestacoes de producao, a pagina pode conter 237 control blocks GOOSE distribuidos em 9 sub-redes. A interface usa paginacao obrigatoria (pageSize=50) e filtros para navegacao eficiente.
 
-**Exemplo do wireframe:** A subestacao de exemplo possui 4 IEDs reais com 11 control blocks GOOSE em 4 sub-redes (W01, W1, W2, W4).
+**Exemplo do wireframe:** A subestacao de exemplo possui 42 IEDs com 237 GOOSE streams. O wireframe mostra uma amostra representativa de 8 streams dos 6 IEDs de referencia.
 
 ---
 
@@ -17,7 +17,7 @@ Visualizar os control blocks GOOSE da subestacao, combinando dados estaticos ext
 ```
 +--------------------------------------------------------------------------------------------------+
 |  +- Header Global (ver 00-navegacao-global.md) ------------------------------------------+       |
-|  |  [Logo NMS]   Subestacao: MU_360_1    Mon: * RUNNING           operador@empresa.com   |       |
+|  |  [Logo NMS]   Subestacao: SE Exemplo    Mon: * RUNNING       operador@empresa.com     |       |
 |  +----------------------------------------------------------------------------------------+       |
 +----------+---------------------------------------------------------------------------------------+
 | SIDEBAR  |                                                                                       |
@@ -29,35 +29,33 @@ Visualizar os control blocks GOOSE da subestacao, combinando dados estaticos ext
 | > Proto  |                                                                                       |
 |   GOOSE  |  +- Tabela de Control Blocks GOOSE (237 registros) --------------------------+       |
 |   SV     |  |                                                                           |       |
-|   MMS    |  |  Publisher ^| CB Name  | GOOSE ID    | Dataset | Dest MAC          | ...  |       |
-|   SNMP   |  |  ----------+----------+-------------+---------+-------------------+------|       |
-|   Cfg    |  |  L90_DIG   | GoCB01   | TxGOOSE1    | 36 ent. | 01:0c:cd:01:00:00 | ...  |       |
-|          |  |  L90_DIG   | GoCB02   | TxGOOSE2    |  2 ent. | -                 | ...  |       |
-|          |  |  MU_360_1  | GCB01    | MU_360_1..  | 64 ent. | 01:0c:cd:01:00:00 | ...  |       |
-|          |  |  MU_360_1  | GCB03    | MU_360_1..  | 18 ent. | 01:0c:cd:01:00:02 | ...  |       |
-|          |  |  MU_360_1  | GCB04    | MU_360_1..  | 16 ent. | 01:0c:cd:01:00:03 | ...  |       |
-|          |  |  ----------+----------+-------------+---------+-------------------+------|       |
-|          |  |  MU320E_LAB| FastGO.. | MU320E_LA.. | 63 ent. | -                 | ...  |       |
-|          |  |  MU320E_LAB| GOCB1    | GOID_BER    |  8 ent. | -                 | ...  |       |
-|          |  |  MU320E_LAB| GOCB2    | GOID_Fixed  |  8 ent. | -                 | ...  |       |
-|          |  |  T60_DIG   | GoCB01   | T60_DIG_G01 |  2 ent. | -                 | ...  |       |
-|          |  |  T60_DIG   | GoCB02   | T60_DIG_G02 |  2 ent. | -                 | ...  |       |
+|   MMS    |  |  Publisher ^| CB Name     | GOOSE ID       | Dataset | Dest MAC          | ...  |
+|   SNMP   |  |  ----------+-------------+----------------+---------+-------------------+------|
+|   Cfg    |  |  MU1_0P3   | FastGOOSE1  | MU1_0P3_G01    | 36 ent. | 01:0c:cd:01:00:43 | ...  |
+|          |  |  MU1_0P3   | GOCB01      | MU1_0P3_G02    | 12 ent. | 01:0c:cd:01:00:a7 | ...  |
+|          |  |  MU2_3T3   | FastGOOSE1  | MU2_3T3_G01    | 63 ent. | 01:0c:cd:01:00:35 | ...  |
+|          |  |  MU2_3T3   | GOCB02      | MU2_3T3_G02    | 18 ent. | 01:0c:cd:01:00:fd | ...  |
+|          |  |  DUCD_3T3  | GoCB01      | DUCD_3T3_GO1   |  8 ent. | 01:0c:cd:01:00:31 | ...  |
+|          |  |  ----------+-------------+----------------+---------+-------------------+------|
+|          |  |  DUCD_3T3  | GoCB03      | DUCD_3T3_GO3   | 16 ent. | 01:0c:cd:01:00:f9 | ...  |
+|          |  |  DUPC_3L1  | GoCB03      | DUPC_3L1_G03   |  8 ent. | 01:0c:cd:01:00:ec | ...  |
+|          |  |  DUPC_0B   | GoCB03      | DUPC_0B_G03    |  2 ent. | 01:0c:cd:01:01:00 | ...  |
+|          |  |  PUPC_3P1  | GoCB03      | PUPC_3P1_GO3   |  2 ent. | 01:0c:cd:01:00:e9 | ...  |
 |          |  |                                                                           |       |
 |          |  |  --- colunas continuam (scroll horizontal ou layout responsivo) ---        |       |
 |          |  |                                                                           |       |
-|          |  |  ... | APP ID | VLAN   | Conf Rev | Subnet | Subscriber(s)    | Status   |       |
-|          |  |  ... +--------+--------+----------+--------+------------------+----------|       |
-|          |  |  ... | 0x0000 | 0x0837 | 1        | W4     | MU_360_1         | * Normal |       |
-|          |  |  ... | 0x0001 | -      | 1        | W2     | -                | o Sem sub|       |
-|          |  |  ... | 0x0000 | 0x0000 | 1        | W01    | L90_DIG          | * Normal |       |
-|          |  |  ... | 0x0000 | 0x0000 | 1        | W01    | L90_DIG          | * Normal |       |
-|          |  |  ... | 0x0000 | 0x0000 | 1        | W01    | L90_DIG          | * Normal |       |
-|          |  |  ... +--------+--------+----------+--------+------------------+----------|       |
-|          |  |  ... | -      | -      | -        | W01    | -                | o Sem sub|       |
-|          |  |  ... | -      | -      | -        | W01    | -                | o Sem sub|       |
-|          |  |  ... | -      | -      | -        | W01    | -                | o Sem sub|       |
-|          |  |  ... | -      | -      | -        | W1     | -                | o Sem sub|       |
-|          |  |  ... | -      | -      | -        | W4     | -                | o Sem sub|       |
+|          |  |  ... | APP ID | VLAN   | Conf Rev | Subnet | Subscriber(s)         | Status   |
+|          |  |  ... +--------+--------+----------+--------+-----------------------+----------|
+|          |  |  ... | 0x0043 | 0x0848 | 1        | W01    | DUPC_0P3, PUPC_0TT4.. | * Normal |
+|          |  |  ... | 0x00A7 | 0x0848 | 1        | W01    | PUPC_0TT4, PUPC_0P3   | * Normal |
+|          |  |  ... | 0x0035 | 0x089A | 1        | W01    | DUCD_3T3, DUPC_3B..   | * Normal |
+|          |  |  ... | 0x00FD | 0x089A | 1        | W01    | MU2_0P3, MU2_0T3..    | * Normal |
+|          |  |  ... | 0x0031 | 0x089A | 1        | W01    | MU2_3T3, UAD_3T3      | * Normal |
+|          |  |  ... +--------+--------+----------+--------+-----------------------+----------|
+|          |  |  ... | 0x00F9 | 0x0BBA | 1        | W1     | DUPC_3P1, DUPC_3B..   | * Normal |
+|          |  |  ... | 0x00EC | 0x0BBC | 1        | W1     | DUPC_3P1, DUPC_3B..   | * Normal |
+|          |  |  ... | 0x00FF | 0x0BE0 | 1        | W1     | DUCD_3T3, DUPC_0P3..  | * Normal |
+|          |  |  ... | 0x00E9 | 0x0BBF | 1        | W1     | DUPC_3P1, DUPC_3B..   | * Normal |
 |          |  |                                                                           |       |
 |          |  +----------------------------------------------------------------------------+       |
 |          |                                                                                       |
@@ -80,9 +78,9 @@ Visualizar os control blocks GOOSE da subestacao, combinando dados estaticos ext
 
 **Barra de filtros:**
 
-- **Publisher:** Dropdown com todos os IEDs publishers (`Todos`, `L90_DIG`, `MU_360_1`, `MU320E_LAB`, `T60_DIG`, ...)
-- **Subscriber:** Dropdown com todos os IEDs subscribers (`Todos`, `L90_DIG`, `MU_360_1`, ..., `Sem subscriber`)
-- **Subnet:** Dropdown com todas as sub-redes (`Todas`, `W01`, `W1`, `W2`, `W4`, ...)
+- **Publisher:** Dropdown com todos os IEDs publishers (`Todos`, `MU1_0P3`, `MU2_3T3`, `DUCD_3T3`, `DUPC_3L1`, `DUPC_0B`, `PUPC_3P1`, ...)
+- **Subscriber:** Dropdown com todos os IEDs subscribers (`Todos`, `DUPC_0P3`, `PUPC_0TT4`, `UPP_3T3`, `DUPC_3B`, ..., `Sem subscriber`)
+- **Subnet:** Dropdown com todas as sub-redes (`Todas`, `W01`, `W02`, `W1`, `W2`, `W2_GE`, `W3`, `W4`, `W4_GE`, `W5`, ...)
 - **Status:** Dropdown com estados (`Todos`, `Normal`, `Sem subscriber`)
 - **Botao Limpar:** Reseta todos os filtros
 - Filtros aplicados client-side sobre dados ja carregados
@@ -93,40 +91,43 @@ Visualizar os control blocks GOOSE da subestacao, combinando dados estaticos ext
 
 Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximadamente 40% da largura da area de conteudo. Combina dados estaticos do SCD com metricas runtime do parser GOOSE.
 
-**Exemplo com dados do GoCB01 (L90_DIG → MU_360_1):**
+**Exemplo com dados do FastGOOSE1 (MU1_0P3 → DUPC_0P3, PUPC_0TT4, UPP_3T3, PUPC_0P3):**
 
 ```
                               +----------------------------------------------+
                               | [X]                                          |
                               |                                              |
-                              |  * GoCB01 — L90_DIG                          |
+                              |  * FastGOOSE1 -- MU1_0P3                     |
                               |  ----------------------------------------    |
                               |                                              |
                               |  -- Time Window --                           |
                               |                                              |
-                              |  Inicio:  15/01/2024 10:30:00                |
-                              |  Fim:     15/01/2024 10:30:05                |
+                              |  Inicio:  27/03/2026 10:30:00                |
+                              |  Fim:     27/03/2026 10:30:05                |
                               |                                              |
                               |  -- Identificacao --                         |
                               |                                              |
-                              |  Publisher:      L90_DIG                     |
-                              |  Control Block:  GoCB01                      |
-                              |  GOOSE ID:       TxGOOSE1                    |
+                              |  Publisher:      MU1_0P3                     |
+                              |  Control Block:  FastGOOSE1                  |
+                              |  GOOSE ID:       MU1_0P3_G01                 |
                               |  Dataset:        36 entradas                 |
-                              |  Dest MAC:       01:0c:cd:01:00:00           |
-                              |  APP ID:         0x0000                      |
-                              |  VLAN ID:        0x0837                      |
+                              |  Dest MAC:       01:0c:cd:01:00:43           |
+                              |  APP ID:         0x0043                      |
+                              |  VLAN ID:        0x0848                      |
                               |  VLAN Priority:  4                           |
                               |  Conf Rev:       1                           |
                               |  TTL:            2000 ms                     |
-                              |  Subnet:         W4                          |
+                              |  Subnet:         W01                         |
                               |                                              |
                               |  -- Subscribers --                           |
                               |                                              |
                               |  +------------+---------------------+        |
                               |  | IED        | Status              |        |
                               |  +------------+---------------------+        |
-                              |  | MU_360_1   | * Recebendo         |        |
+                              |  | DUPC_0P3   | * Recebendo         |        |
+                              |  | PUPC_0TT4  | * Recebendo         |        |
+                              |  | UPP_3T3    | * Recebendo         |        |
+                              |  | PUPC_0P3   | * Recebendo         |        |
                               |  +------------+---------------------+        |
                               |                                              |
                               |  -- Contadores --                            |
@@ -137,7 +138,7 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
                               |  | total_packets       | 500    | 498    |  |
                               |  | number_of_events    | 3      | 3      |  |
                               |  | lost_packets        | 0      | N 2    |  |
-                              |  |   (1a ocorrencia)   | -      | 15/01  |  |
+                              |  |   (1a ocorrencia)   | -      | 27/03  |  |
                               |  |                     |        | 10:30  |  |
                               |  | out_of_order        | 0      | 0      |  |
                               |  | duplicates          | 0      | 0      |  |
@@ -192,26 +193,26 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 
 ### Drawer de control block SEM subscriber
 
-Exemplo com GoCB02 (L90_DIG, sem subscriber):
+Exemplo com GOCB02 (MU2_3T3, sem subscriber):
 
 ```
                               +----------------------------------------------+
                               | [X]                                          |
                               |                                              |
-                              |  o GoCB02 — L90_DIG                          |
+                              |  o GOCB02 -- MU2_3T3                         |
                               |  ----------------------------------------    |
                               |                                              |
                               |  -- Identificacao --                         |
                               |                                              |
-                              |  Publisher:      L90_DIG                     |
-                              |  Control Block:  GoCB02                      |
-                              |  GOOSE ID:       TxGOOSE2                    |
+                              |  Publisher:      MU2_3T3                     |
+                              |  Control Block:  GOCB02                      |
+                              |  GOOSE ID:       MU2_3T3_G02                 |
                               |  Dataset:        2 entradas                  |
                               |  Dest MAC:       -                           |
-                              |  APP ID:         0x0001                      |
+                              |  APP ID:         0x00FD                      |
                               |  VLAN ID:        -                           |
                               |  Conf Rev:       1                           |
-                              |  Subnet:         W2                          |
+                              |  Subnet:         W01                         |
                               |                                              |
                               |  -- Subscribers --                           |
                               |                                              |
@@ -241,7 +242,7 @@ Quando o monitoramento esta parado (`state == STOPPED`) ou nao ha dados de metri
                               +----------------------------------------------+
                               | [X]                                          |
                               |                                              |
-                              |  * GoCB01 — L90_DIG                          |
+                              |  * FastGOOSE1 -- MU1_0P3                     |
                               |  ----------------------------------------    |
                               |                                              |
                               |  -- Identificacao --                         |
@@ -422,22 +423,22 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
 
 ```json
 {
-  "publisher_ied": "L90_DIG",
-  "ld_inst": "Master",
-  "cb_name": "GoCB01",
-  "control_block": "L90_DIGMaster/LLN0$GO$GoCB01",
-  "goose_id": "TxGOOSE1",
-  "dataset": "L90_DIGMaster/LLN0$TT6DataSet1",
+  "publisher_ied": "MU1_0P3",
+  "ld_inst": "CTRL",
+  "cb_name": "FastGOOSE1",
+  "control_block": "MU1_0P3CTRL/LLN0$GO$FastGOOSE1",
+  "goose_id": "MU1_0P3_G01",
+  "dataset": "MU1_0P3CTRL/LLN0$DSFastGOOSE1",
   "dataset_entries": 36,
   "conf_rev": 1,
-  "app_id": "0x0000",
-  "dest_mac": "01:0c:cd:01:00:00",
-  "vlan_id": "0x0837",
+  "app_id": "0x0043",
+  "dest_mac": "01:0c:cd:01:00:43",
+  "vlan_id": "0x0848",
   "vlan_priority": 4,
   "retransmission_time": 1,
-  "subscribers": ["MU_360_1"],
-  "subnetwork": "W4",
-  "source_file": "L90_DIG-Lab_20260129.CID"
+  "subscribers": ["DUPC_0P3", "PUPC_0TT4", "UPP_3T3", "PUPC_0P3"],
+  "subnetwork": "W01",
+  "source_file": "SE_Exemplo_20260327.SCD"
 }
 ```
 
@@ -445,22 +446,22 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
 
 ```json
 {
-  "publisher_ied": "L90_DIG",
+  "publisher_ied": "DUCD_3T3",
   "ld_inst": "Master",
-  "cb_name": "GoCB02",
-  "control_block": "L90_DIGMaster/LLN0$GO$GoCB02",
-  "goose_id": "TxGOOSE2",
-  "dataset": "L90_DIGMaster/LLN0$TT6DataSet2",
-  "dataset_entries": 2,
+  "cb_name": "GoCB01",
+  "control_block": "DUCD_3T3Master/LLN0$GO$GoCB01",
+  "goose_id": "DUCD_3T3_GO1",
+  "dataset": "DUCD_3T3Master/LLN0$DSGoCB01",
+  "dataset_entries": 8,
   "conf_rev": 1,
-  "app_id": "0x0001",
-  "dest_mac": "01:0c:cd:01:00:01",
-  "vlan_id": "0x0BBB",
+  "app_id": "0x0031",
+  "dest_mac": "01:0c:cd:01:00:31",
+  "vlan_id": "0x089A",
   "vlan_priority": 4,
   "retransmission_time": 1,
   "subscribers": [],
-  "subnetwork": "W2",
-  "source_file": "L90_DIG-Lab_20260129.CID"
+  "subnetwork": "W01",
+  "source_file": "SE_Exemplo_20260327.SCD"
 }
 ```
 
@@ -469,20 +470,20 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
 ```json
 {
   "time_window": {
-    "start": "2024-01-15T10:30:00.000000Z",
-    "end": "2024-01-15T10:30:05.000000Z"
+    "start": "2026-03-27T10:30:00.000000Z",
+    "end": "2026-03-27T10:30:05.000000Z"
   },
   "interfaces": ["eth0", "eth1"],
   "invalid_packets": 0,
   "metrics": [
     {
-      "control_block": "L90_DIGMaster/LLN0$GO$GoCB01",
-      "app_id": "0x0000",
-      "dataset": "L90_DIGMaster/LLN0$TT6DataSet1",
+      "control_block": "MU1_0P3CTRL/LLN0$GO$FastGOOSE1",
+      "app_id": "0x0043",
+      "dataset": "MU1_0P3CTRL/LLN0$DSFastGOOSE1",
       "dataset_entries": 36,
-      "goose_id": "TxGOOSE1",
-      "dest_mac": "01:0c:cd:01:00:00",
-      "vlan_id": "0x0837",
+      "goose_id": "MU1_0P3_G01",
+      "dest_mac": "01:0c:cd:01:00:43",
+      "vlan_id": "0x0848",
       "vlan_priority": 4,
       "conf_rev": 1,
       "ttl": 2000,
@@ -522,7 +523,7 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
             "total_packets": 498,
             "number_of_events": 3,
             "lost_packets": 2,
-            "lost_packets_ts": "2024-01-15T10:30:00.123456Z",
+            "lost_packets_ts": "2026-03-27T10:30:00.123456Z",
             "out_of_order": 0,
             "out_of_order_ts": null,
             "duplicates": 0,
@@ -548,13 +549,13 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
 
 ```json
 {
-  "control_block": "MU_360_1LDSUIED/LLN0$GO$GCB01",
-  "app_id": "0x0000",
-  "dataset": "MU_360_1LDSUIED/LLN0$DSGoCB01",
-  "dataset_entries": 64,
-  "goose_id": "MU_360_1LDSUIED/LLN0$GO$GCB01",
-  "dest_mac": "01:0c:cd:01:00:00",
-  "vlan_id": "0x0000",
+  "control_block": "DUCD_3T3Master/LLN0$GO$GoCB03",
+  "app_id": "0x00F9",
+  "dataset": "DUCD_3T3Master/LLN0$DSGoCB03",
+  "dataset_entries": 16,
+  "goose_id": "DUCD_3T3_GO3",
+  "dest_mac": "01:0c:cd:01:00:f9",
+  "vlan_id": "0x0BBA",
   "vlan_priority": 4,
   "conf_rev": 1,
   "ttl": 2000,
@@ -571,15 +572,15 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
         "total_packets": 12450,
         "number_of_events": 47,
         "lost_packets": 15,
-        "lost_packets_ts": "2024-01-15T10:31:22.456789Z",
+        "lost_packets_ts": "2026-03-27T10:31:22.456789Z",
         "out_of_order": 3,
-        "out_of_order_ts": "2024-01-15T10:32:01.234567Z",
+        "out_of_order_ts": "2026-03-27T10:32:01.234567Z",
         "duplicates": 0,
         "duplicates_ts": null,
         "ied_restarts": 1,
-        "ied_restarts_ts": "2024-01-15T10:33:45.678901Z",
+        "ied_restarts_ts": "2026-03-27T10:33:45.678901Z",
         "missed_events": 2,
-        "missed_events_ts": "2024-01-15T10:31:22.456789Z"
+        "missed_events_ts": "2026-03-27T10:31:22.456789Z"
       },
       "timing": {
         "min_time": 0.0008,
@@ -594,15 +595,15 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
         "total_packets": 12448,
         "number_of_events": 47,
         "lost_packets": 17,
-        "lost_packets_ts": "2024-01-15T10:31:22.456812Z",
+        "lost_packets_ts": "2026-03-27T10:31:22.456812Z",
         "out_of_order": 1,
-        "out_of_order_ts": "2024-01-15T10:32:01.234590Z",
+        "out_of_order_ts": "2026-03-27T10:32:01.234590Z",
         "duplicates": 2,
-        "duplicates_ts": "2024-01-15T10:34:12.345678Z",
+        "duplicates_ts": "2026-03-27T10:34:12.345678Z",
         "ied_restarts": 1,
-        "ied_restarts_ts": "2024-01-15T10:33:45.679012Z",
+        "ied_restarts_ts": "2026-03-27T10:33:45.679012Z",
         "missed_events": 2,
-        "missed_events_ts": "2024-01-15T10:31:22.456812Z"
+        "missed_events_ts": "2026-03-27T10:31:22.456812Z"
       },
       "timing": {
         "min_time": 0.0009,
@@ -620,31 +621,31 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
 ```json
 { "eth0": { "prp_lans": ["A"] }, "eth1": { "prp_lans": ["B"] } }
 ```
-Diagnostico: ✅ Normal — LAN-A em eth0, LAN-B em eth1
+Diagnostico: Normal — LAN-A em eth0, LAN-B em eth1
 
 **PRP LANs invertidas:**
 ```json
 { "eth0": { "prp_lans": ["B"] }, "eth1": { "prp_lans": ["A"] } }
 ```
-Diagnostico: ⚠ LANs invertidas — cabos trocados?
+Diagnostico: LANs invertidas — cabos trocados?
 
 **PRP Ambas LANs em ambas interfaces:**
 ```json
 { "eth0": { "prp_lans": ["A", "B"] }, "eth1": { "prp_lans": ["A", "B"] } }
 ```
-Diagnostico: ❌ Problema de topologia — ambas LANs em ambas interfaces
+Diagnostico: Problema de topologia — ambas LANs em ambas interfaces
 
 **HSR Normal:**
 ```json
 { "eth0": { "hsr_paths": ["A", "B"] } }
 ```
-Diagnostico: ✅ Normal — ambos paths do anel visiveis
+Diagnostico: Normal — ambos paths do anel visiveis
 
 **HSR Ruptura parcial:**
 ```json
 { "eth0": { "hsr_paths": ["A"] } }
 ```
-Diagnostico: ⚠ Apenas um path — possivel ruptura no anel
+Diagnostico: Apenas um path — possivel ruptura no anel
 
 **Sem redundancia:**
 ```json
@@ -673,7 +674,7 @@ Diagnostico: Sem PRP/HSR nesta captura
 ### 2. Clique em linha da tabela (abrir drawer)
 
 ```
-> Usuario clica em uma linha (ex: GoCB01 - L90_DIG)
+> Usuario clica em uma linha (ex: FastGOOSE1 - MU1_0P3)
 > Frontend coleta dados estaticos do CB do cache SCD
 > Frontend executa GET /api/v1/protocols/GOOSE/metrics
 > Correlacionar metrica pelo campo control_block
@@ -702,7 +703,7 @@ Diagnostico: Sem PRP/HSR nesta captura
 ### 4. Aplicar filtros na tabela
 
 ```
-> Usuario seleciona filtro (ex: Publisher = "MU_360_1")
+> Usuario seleciona filtro (ex: Publisher = "MU2_3T3")
 > Tabela filtra client-side (dados ja carregados do SCD)
 > Linhas que nao correspondem ao filtro ficam ocultas
 > Paginacao recalcula total de resultados
@@ -754,12 +755,12 @@ Diagnostico: Sem PRP/HSR nesta captura
 
 | Elemento | ADMIN | OPERATOR | VIEWER |
 |---|---|---|---|
-| Visualizar tabela GOOSE | ✓ | ✓ | ✓ |
-| Aplicar filtros | ✓ | ✓ | ✓ |
-| Abrir drawer de detalhe | ✓ | ✓ | ✓ |
-| Visualizar metricas runtime | ✓ | ✓ | ✓ |
-| Visualizar redundancia PRP/HSR | ✓ | ✓ | ✓ |
-| Link « Ir para Configuracao » (estado vazio) | ✓ Visivel e ativo | Link visivel (navega para `/settings/scd`, onde botoes de acao serao desabilitados) | **Oculto** (VIEWER nao configura — remover o link, manter apenas a mensagem informativa) |
+| Visualizar tabela GOOSE | V | V | V |
+| Aplicar filtros | V | V | V |
+| Abrir drawer de detalhe | V | V | V |
+| Visualizar metricas runtime | V | V | V |
+| Visualizar redundancia PRP/HSR | V | V | V |
+| Link « Ir para Configuracao » (estado vazio) | V Visivel e ativo | Link visivel (navega para `/settings/scd`, onde botoes de acao serao desabilitados) | **Oculto** (VIEWER nao configura — remover o link, manter apenas a mensagem informativa) |
 
 **Notas:**
 

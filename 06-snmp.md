@@ -15,7 +15,7 @@ Diferente das demais telas de protocolo (GOOSE, SV, MMS), os dados SNMP **nao sa
 ```
 +-----------------------------------------------------------------------------------------------+
 |  +--- Header Global (ver 00-navegacao-global.md) --------------------------------------+      |
-|  |  [Logo NMS]   Subestacao: MU_360_1     Mon: * RUNNING                    {user} [Sair]  |  |
+|  |  [Logo NMS]   Subestacao: SE Exemplo   Mon: * RUNNING                    {user} [Sair]  |  |
 |  +-------------------------------------------------------------------------------------+      |
 |                                                                                               |
 |  +--- Barra de Filtros ----------------------------------------------------------------+      |
@@ -39,16 +39,16 @@ Diferente das demais telas de protocolo (GOOSE, SV, MMS), os dados SNMP **nao sa
 |  |                                                                                     |      |
 |  |  Dispositivo ^                       | Status     | OIDs Coletados | Ult. Atualiz.  |      |
 |  |  ------------------------------------+------------+----------------+----------------+      |
-|  |  SW-PROC-01 (Process Bus Switch)     | * Online   | 24             | 19/02/26 14:32 |      |
+|  |  SW-PROC-01 (Process Bus Switch)     | * Online   | 24             | 27/03/26 14:32 |      |
 |  |                                      |            |                |                |      |
 |  |  ------------------------------------+------------+----------------+----------------+      |
-|  |  SW-STAT-01 (Station Bus Switch)     | * Online   | 18             | 19/02/26 14:32 |      |
+|  |  SW-STAT-01 (Station Bus Switch)     | * Online   | 18             | 27/03/26 14:32 |      |
 |  |                                      |            |                |                |      |
 |  |  ------------------------------------+------------+----------------+----------------+      |
-|  |  SW-ADMIN-01 (Admin Switch)          | ! Degraded | 12             | 19/02/26 14:28 |      |
+|  |  SW-ADMIN-01 (Admin Switch)          | ! Degraded | 12             | 27/03/26 14:28 |      |
 |  |                                      |            |                |                |      |
 |  |  ------------------------------------+------------+----------------+----------------+      |
-|  |  SW-PROC-02 (Process Bus Switch #2)  | N Offline  |  0             | 19/02/26 13:45 |      |
+|  |  SW-PROC-02 (Process Bus Switch #2)  | N Offline  |  0             | 27/03/26 13:45 |      |
 |  |                                      |            |                |                |      |
 |  +-------------------------------------------------------------------------------------+      |
 |                                                                                               |
@@ -100,7 +100,7 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 |  |                                        |   * Online       |            |   |
 |  |                                        +------------------+            |   |
 |  |                                                                        |   |
-|  |  Ultima coleta: 19/02/2026 14:32                                       |   |
+|  |  Ultima coleta: 27/03/2026 14:32                                       |   |
 |  |  OIDs coletados: 24                                                    |   |
 |  |                                                                        |   |
 |  |  -------------------------------------------------------------------   |   |
@@ -189,7 +189,7 @@ Quando nenhum MIB esta cadastrado no sistema, a tela ainda exibe a tabela de dis
 ```
 +-----------------------------------------------------------------------------------------------+
 |  +--- Header Global (ver 00-navegacao-global.md) --------------------------------------+      |
-|  |  [Logo NMS]   Subestacao: MU_360_1     Mon: * RUNNING                    {user} [Sair]  |  |
+|  |  [Logo NMS]   Subestacao: SE Exemplo   Mon: * RUNNING                    {user} [Sair]  |  |
 |  +-------------------------------------------------------------------------------------+      |
 |                                                                                               |
 |  +--- Barra de Filtros ----------------------------------------------------------------+      |
@@ -205,9 +205,9 @@ Quando nenhum MIB esta cadastrado no sistema, a tela ainda exibe a tabela de dis
 |  |                                                                                     |      |
 |  |  Dispositivo ^                       | Status     | OIDs Coletados | Ult. Atualiz.  |      |
 |  |  ------------------------------------+------------+----------------+----------------+      |
-|  |  SW-PROC-01 (Process Bus Switch)     | * Online   | 24             | 19/02/26 14:32 |      |
-|  |  SW-STAT-01 (Station Bus Switch)     | * Online   | 18             | 19/02/26 14:32 |      |
-|  |  SW-ADMIN-01 (Admin Switch)          | ! Degraded | 12             | 19/02/26 14:28 |      |
+|  |  SW-PROC-01 (Process Bus Switch)     | * Online   | 24             | 27/03/26 14:32 |      |
+|  |  SW-STAT-01 (Station Bus Switch)     | * Online   | 18             | 27/03/26 14:32 |      |
+|  |  SW-ADMIN-01 (Admin Switch)          | ! Degraded | 12             | 27/03/26 14:28 |      |
 |  |                                                                                     |      |
 |  +-------------------------------------------------------------------------------------+      |
 |                                                                                               |
@@ -241,7 +241,7 @@ Exibido quando o sistema ainda nao coletou nenhum dado SNMP — ou seja, nenhum 
 ```
 +-----------------------------------------------------------------------------------------------+
 |  +--- Header Global (ver 00-navegacao-global.md) ---------------------------------------+     |
-|  |  [Logo NMS]   Subestacao: MU_360_1     Mon: * RUNNING                    {user} [Sair]  |  |
+|  |  [Logo NMS]   Subestacao: SE Exemplo   Mon: * RUNNING                    {user} [Sair]  |  |
 |  +--------------------------------------------------------------------------------------+     |
 |                                                                                               |
 |  +--- Barra de Filtros (desabilitada quando sem dados) -------------------------------- +     |
@@ -326,7 +326,7 @@ Exibido quando o sistema ainda nao coletou nenhum dado SNMP — ou seja, nenhum 
 |---|---|---|---|---|
 | `/api/v1/mibs` | GET | Carregar MIBs para traducao de OIDs (cacheado apos primeiro carregamento) | Response: `MibListResponse` → `items[]` com `name`, `content` (para parsing de OID→nome) | `GET /api/v1/mibs?page=1&pageSize=250` |
 | `/api/v1/protocols/SNMP/data` | GET | Carregar dados SNMP persistidos (dispositivos e seus OIDs) | Query: `type`, `scdId`, `page`, `pageSize`, `sort`, `order`. Response: `ProtocolDataListResponse` → `items[]` com `id`, `protocol`, `type`, `data` (contendo `deviceId`, `oids[]`) | `GET /api/v1/protocols/SNMP/data?page=1&pageSize=50&sort=createdAtUtc&order=desc` |
-| `/api/v1/protocols/SNMP/metrics` | GET | Carregar serie temporal de metricas SNMP para o grafico no drawer | Query: `fromUtc`, `toUtc`, `page`, `pageSize`, `sort`, `order`. Response: `MetricPointListResponse` → `items[]` com `timestampUtc`, `hostId`, `metrics` | `GET /api/v1/protocols/SNMP/metrics?fromUtc=2026-02-19T10:00:00Z&toUtc=2026-02-19T14:30:00Z&page=1&pageSize=200` |
+| `/api/v1/protocols/SNMP/metrics` | GET | Carregar serie temporal de metricas SNMP para o grafico no drawer | Query: `fromUtc`, `toUtc`, `page`, `pageSize`, `sort`, `order`. Response: `MetricPointListResponse` → `items[]` com `timestampUtc`, `hostId`, `metrics` | `GET /api/v1/protocols/SNMP/metrics?fromUtc=2026-03-27T10:00:00Z&toUtc=2026-03-27T14:30:00Z&page=1&pageSize=200` |
 
 **Schemas utilizados:**
 

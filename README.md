@@ -5,7 +5,7 @@ Documentos de definição de wireframes para as telas do NMS — sistema de moni
 Cada documento contém:
 - **Wireframes ASCII** com layout de cada tela e seus estados (com dados, vazio, erro)
 - **Componentes** mapeados para campos exatos da API REST
-- **Dados de exemplo reais** de uma subestação com 4 IEDs e 6 redes
+- **Dados de exemplo reais** de uma subestação com 42 IEDs, 9 subnets, 237 GOOSE e 80 SV
 - **Fluxos de interação** numerados (o que acontece ao clicar, filtrar, navegar)
 - **Permissões por role** (ADMIN, OPERATOR, VIEWER)
 
@@ -34,6 +34,6 @@ Cada documento contém:
 | Arquivo | Conteúdo |
 |---|---|
 | `docs/api/swagger-nms-v1.0.1.yaml` | Especificação completa da API REST |
-| `docs/parsed-scd/scd.md` | Análise do SCD real (4 IEDs, 6 redes, 11 GOOSE, 6 SV) |
+| `docs/extras/2026-03-16/2. Exemplo SCD.json` | SCD real parseado (42 IEDs, 9 subnets, 237 GOOSE, 80 SV) |
 | `docs/structure-proposal/Proposta de Telas.pdf` | Mapa de telas aprovado |
 | `docs/structure-proposal/frontend-recommendations.md` | Recomendações de arquitetura frontend |

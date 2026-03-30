@@ -4,7 +4,7 @@
 
 Listar, filtrar, detalhar e reconhecer alarmes do sistema de monitoramento da subestacao IEC 61850, conforme a taxonomia de alarmes GOOSE v1.2. Os alarmes sao classificados em tres tipos — PRESENCE (presenca/ausencia de stream), STATIC_INTEGRITY (divergencia entre PCAP e SCD) e DYNAMIC_INTEGRITY (anomalias de comportamento do stream) — e seguem uma maquina de estados (ACTIVE -> ACKNOWLEDGED -> CLEARED). Esta tela e o ponto central de operacao para que operadores identifiquem anomalias detectadas pelos agentes de monitoramento e executem o reconhecimento (ACK) dos alarmes conforme procedimento operacional.
 
-A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), MU320E_LAB (merging unit), MU_360_1 (merging unit) e T60_DIG (rele de protecao de transformador) — com protocolos GOOSE, SV, PTP, MMS, SNMP e SYSTEM.
+A subestacao monitorada possui 42 IEDs — incluindo DUCD_3T3 (C60, rele de protecao), DUPC_3L1 (L90, rele de linha), DUPC_0B (B30, rele de disjuntor), MU1_0P3 (merging unit), MU2_3T3 (merging unit) e PUPC_3P1 (C60, rele de protecao) — com protocolos GOOSE, SV, PTP, MMS, SNMP e SYSTEM.
 
 ---
 
@@ -15,7 +15,7 @@ A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), M
 ```
 +----------------------------------------------------------------------------------------------------+
 |  +--- Header Global (ver 00-navegacao-global.md) -------------------------------------------+      |
-|  |  [Logo NMS]   Subestacao: MU_360_1     Mon: * RUNNING          operador01 [Logout]       |      |
+|  |  [Logo NMS]   Subestacao: SE Exemplo   Mon: * RUNNING          operador01 [Logout]       |      |
 |  +-------------------------------------------------------------------------------------------+     |
 |                                                                                                    |
 |  +--- Barra de Filtros --------------------------------------------------------------------+       |
@@ -38,17 +38,23 @@ A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), M
 |  |                                                                                     |           |
 |  |  Timestamp           | Tipo              | Sev.        | Resumo              |Oc|Est|           |
 |  |  --------------------+-------------------+-------------+---------------------+--+---+           |
-|  |  19/02/2026 14:32:01 | PRESENCE          | N CRITICAL  | Ausencia GOOSE rede | 3| A |           |
-|  |  ####################|###################|#############| GoCB01 L90_DIG      |##|###|           |
+|  |  27/03/2026 14:32:01 | PRESENCE          | N CRITICAL  | Ausencia GOOSE rede | 3| A |           |
+|  |  ####################|###################|#############| FastGOOSE1 MU1_0P3  |##|###|           |
 |  |                      |                   |             |                     |  |   |           |
-|  |  19/02/2026 14:30:15 | STATIC_INTEGRITY  | ! HIGH      | VLAN divergente     | 1| K |           |
-|  |                      |                   |             | GoCB01 L90_DIG      |  |   |           |
+|  |  27/03/2026 14:30:15 | STATIC_INTEGRITY  | ! HIGH      | VLAN divergente     | 1| K |           |
+|  |                      |                   |             | GoCB03 DUCD_3T3     |  |   |           |
 |  |                      |                   |             |                     |  |   |           |
-|  |  19/02/2026 14:25:00 | DYNAMIC_INTEGRITY | o MEDIUM    | Clock nao sincron.  | 2| A |           |
-|  |                      |                   |             | GoCB01 L90_DIG      |  |   |           |
+|  |  27/03/2026 14:25:00 | DYNAMIC_INTEGRITY | o MEDIUM    | Clock nao sincron.  | 2| A |           |
+|  |                      |                   |             | GOCB01 DUPC_3L1     |  |   |           |
 |  |                      |                   |             |                     |  |   |           |
-|  |  19/02/2026 13:10:44 | DYNAMIC_INTEGRITY | ! HIGH      | Pacotes perdidos    |12| K |           |
-|  |                      |                   |             | GoCB01 MU_360_1     |  |   |           |
+|  |  27/03/2026 13:55:30 | PRESENCE          | ! HIGH      | Ausencia GOOSE rede | 5| A |           |
+|  |                      |                   |             | GoCB01 DUPC_0B      |  |   |           |
+|  |                      |                   |             |                     |  |   |           |
+|  |  27/03/2026 13:40:22 | STATIC_INTEGRITY  | o MEDIUM    | AppID divergente    | 1| K |           |
+|  |                      |                   |             | GOCB02 MU2_3T3      |  |   |           |
+|  |                      |                   |             |                     |  |   |           |
+|  |  27/03/2026 13:10:44 | DYNAMIC_INTEGRITY | ! HIGH      | Pacotes perdidos    |12| K |           |
+|  |                      |                   |             | GoCB01 PUPC_3P1     |  |   |           |
 |  |                      |                   |             |                     |  |   |           |
 |  +-------------------------------------------------------------------------------------+           |
 |                                                                                                    |
@@ -61,7 +67,7 @@ A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), M
 |                                                                                                    |
 |  +--- Paginacao -----------------------------------------------------------------------+           |
 |  |                                                                                     |           |
-|  |  Mostrando 1-4 de 4 alarmes   [25|50|100]              < 1 2 3 ... N >              |           |
+|  |  Mostrando 1-6 de 6 alarmes   [25|50|100]              < 1 2 3 ... N >              |           |
 |  |                                                                                     |           |
 |  +-------------------------------------------------------------------------------------+           |
 |                                                                                                    |
@@ -101,10 +107,10 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 |  |  a1b2c3d4-e5f6-7890-abcd-ef1234567890        |  |
 |  |                                              |  |
 |  |  Criado em                                   |  |
-|  |  2026-02-19T14:32:01Z                        |  |
+|  |  2026-03-27T14:32:01Z                        |  |
 |  |                                              |  |
 |  |  Atualizado em                               |  |
-|  |  2026-02-19T14:32:45Z                        |  |
+|  |  2026-03-27T14:32:45Z                        |  |
 |  |                                              |  |
 |  |  Tipo de Alarme                              |  |
 |  |  PRESENCE                                    |  |
@@ -125,7 +131,7 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 |  |  pcap                                        |  |
 |  |                                              |  |
 |  |  Expira em                                   |  |
-|  |  2026-02-19T14:38:01Z                        |  |
+|  |  2026-03-27T14:38:01Z                        |  |
 |  |                                              |  |
 |  |  ------------------------------------------  |  |
 |  |                                              |  |
@@ -133,14 +139,14 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 |  |  +------------------+---------------------+  |  |
 |  |  | Chave            | Valor               |  |  |
 |  |  +------------------+---------------------+  |  |
-|  |  | control_block    | L90_DIGMaster/LLN0  |  |  |
-|  |  |                  | $GO$GoCB01          |  |  |
-|  |  | app_id           | 0x0001              |  |  |
-|  |  | dataset          | L90_DIGMaster/LLN0  |  |  |
-|  |  |                  | $TT6DataSet1        |  |  |
-|  |  | goose_id         | TxGOOSE1            |  |  |
-|  |  | dest_mac         | 01:0c:cd:01:00:00   |  |  |
-|  |  | vlan_id          | 0x0837              |  |  |
+|  |  | control_block    | MU1_0P3CTRL/LLN0    |  |  |
+|  |  |                  | $GO$FastGOOSE1      |  |  |
+|  |  | app_id           | 0x0043              |  |  |
+|  |  | dataset          | MU1_0P3CTRL/LLN0    |  |  |
+|  |  |                  | $FastGOOSEDataSet1  |  |  |
+|  |  | goose_id         | MU1_0P3_G01         |  |  |
+|  |  | dest_mac         | 01:0c:cd:01:00:43   |  |  |
+|  |  | vlan_id          | 0x0848              |  |  |
 |  |  | conf_rev         | 1                   |  |  |
 |  |  +------------------+---------------------+  |  |
 |  |                                              |  |
@@ -157,7 +163,7 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 |  |  +------------------+---------------------+  |  |
 |  |  | value            | 15                  |  |  |
 |  |  | threshold        | 10                  |  |  |
-|  |  | first_occurrence  | 2026-02-19T14:31:  |  |  |
+|  |  | first_occurrence  | 2026-03-27T14:31:  |  |  |
 |  |  |   _ts            |  58Z                |  |  |
 |  |  +------------------+---------------------+  |  |
 |  |                                              |  |
@@ -201,7 +207,7 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 |  |  Estado                                      |  |
 |  |  K ACKNOWLEDGED                              |  |
 |  |    por: operador@empresa.com                 |  |
-|  |    em: 19/02/2026 14:35:12 UTC               |  |
+|  |    em: 27/03/2026 14:35:12 UTC               |  |
 |  |                                              |  |
 |  |  ------------------------------------------  |  |
 |  |                                              |  |
@@ -342,7 +348,7 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 | `/api/v1/alarms` | GET | Filtrar por estado | Query: `state=ACTIVE` | `GET /api/v1/alarms?state=ACTIVE&page=1&pageSize=50` |
 | `/api/v1/alarms` | GET | Filtrar por metodo | Query: `method=pcap` | `GET /api/v1/alarms?method=pcap&page=1&pageSize=50` |
 | `/api/v1/alarms` | GET | Filtrar por tipo de alarme | Query: `alarm_type=PRESENCE` | `GET /api/v1/alarms?alarm_type=PRESENCE&page=1&pageSize=50` |
-| `/api/v1/alarms` | GET | Filtrar por periodo | Query: `from`, `to` | `GET /api/v1/alarms?from=2026-02-19T00:00:00Z&to=2026-02-19T23:59:59Z` |
+| `/api/v1/alarms` | GET | Filtrar por periodo | Query: `from`, `to` | `GET /api/v1/alarms?from=2026-03-27T00:00:00Z&to=2026-03-27T23:59:59Z` |
 | `/api/v1/alarms/{alarm_id}` | GET | Carregar detalhe completo do alarme no drawer | Response: `GooseAlarm` (estrutura flat com todos os campos) | `GET /api/v1/alarms/a1b2c3d4-e5f6-7890-abcd-ef1234567890` |
 | `/api/v1/alarms/{alarm_id}/ack` | POST | Reconhecer alarme | Response 200: `AckResponse` (alarm_id, state, acknowledged_at, acknowledged_by); Response 409: `ErrorResponse` | `POST /api/v1/alarms/a1b2c3d4-e5f6-7890-abcd-ef1234567890/ack` |
 

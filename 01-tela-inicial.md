@@ -14,7 +14,7 @@ A tela apresenta os **IEDs** (Intelligent Electronic Devices) e **proxy nodes** 
 
 **Proxy nodes** sao IEDs referenciados em streams GOOSE/SV (como publishers ou subscribers) mas cujo arquivo CID nao foi carregado no parser. Possuem dados limitados — sem vendor, tipo, IPs — mas sua presenca e conexoes sao conhecidas. O monitoramento parcial e possivel via LGOS/LSVS dos subscribers reais.
 
-**Exemplo do wireframe:** A subestacao de exemplo possui 4 IEDs reais — L90_DIG (rele de protecao de linha), MU320E_LAB (merging unit), MU_360_1 (merging unit) e T60_DIG (rele de protecao de transformador) — alem de 2 proxy nodes (DUCD_3T3, DUCD_3T1), distribuidos em 6 sub-redes (W1, W2, W4, W01, W02, W03).
+**Exemplo do wireframe:** A subestacao SE Exemplo possui 42 IEDs — incluindo DUCD_3T3 (C60, rele de protecao), DUPC_3L1 (L90, rele de linha), DUPC_0B (B30, rele de disjuntor), MU1_0P3 (merging unit), MU2_3T3 (merging unit) e PUPC_3P1 (C60, rele de protecao). O wireframe mostra uma amostra representativa de 8 IEDs; a subestacao real possui 42 IEDs em 9 subnets, alem de 161 proxy nodes, distribuidos em 9 sub-redes (W01, W02, W1, W2, W2_GE, W3, W4, W4_GE, W5).
 
 **Escala real:** Em subestacoes de producao, a topologia pode conter 42 IEDs reais + 161 proxies = 203 nos, distribuidos em 9 sub-redes, com 237 streams GOOSE e 80 streams SV. A interface deve suportar esta escala via filtros, zoom semantico e toggle de proxies.
 
@@ -27,82 +27,78 @@ A tela apresenta os **IEDs** (Intelligent Electronic Devices) e **proxy nodes** 
 ```
 +--------------------------------------------------------------------------------------------------+
 |  +- Header Global (ver 00-navegacao-global.md) ------------------------------------------+       |
-|  |  [Logo NMS]   Subestacao: MU_360_1    Mon: * RUNNING           operador@empresa.com   |       |
-|  +----------------------------------------------------------------------------------------+       |
+|  |  [Logo NMS]   Subestacao: SE Exemplo   Mon: * RUNNING           operador@empresa.com   |      |
+|  +----------------------------------------------------------------------------------------+      |
 +----------+---------------------------------------------------------------------------------------+
 | SIDEBAR  |                                                                                       |
-|          |  +- Indicador Global ---------------------------------------------------------+        |
-| > Topol. |  |  * Monitoramento: RUNNING desde 19/02/2026 10:00                          |        |
-|   Alm (2)|  |  42 IEDs | 161 Proxies | 9 Redes                                         |        |
+|          |  +- Indicador Global ---------------------------------------------------------+       |
+| > Topol. |  |  * Monitoramento: RUNNING desde 27/03/2026 10:00                          |        |
+|   Alm (2)|  |  42 IEDs | 161 Proxies | 9 Redes                                         |         |
 |   Sinc   |  +------------------------------------------------------------------------+  |        |
 |   Red    |                                                                                       |
 |   Com    |  +- Filtros/Controles --------------------------------------------------------+       |
-|   SNMP   |  | {Subnet: Todas v}  {Tipo: Todos v}  [x] Mostrar proxies   [____Buscar____]|       |
+|   SNMP   |  | {Subnet: Todas v}  {Tipo: Todos v}  [x] Mostrar proxies   [____Buscar____]|        |
 |   Cfg    |  +----------------------------------------------------------------------------+       |
 |          |                                                                                       |
 |          |  +- Area de Topologia (Grafo de Rede) ----------------------------------------+       |
 |          |  |                                                                            |       |
-|          |  |  +- Station Bus (W1, W2) -- 8-MMS ----------------------------------+     |       |
+|          |  |  +- Station Bus (W1, W2) -- 8-MMS ----------------------------------+     |        |
 |          |  |  |                                                                   |     |       |
-|          |  |  |  +-------------------+                  +-------------------+     |     |       |
-|          |  |  |  | * L90_DIG    [ied]|                  | * T60_DIG    [ied]|     |     |       |
-|          |  |  |  | GE Multilin       |                  | GE Vernova        |     |     |       |
-|          |  |  |  | L90 v8.60         |                  | T60 v8.70         |     |     |       |
-|          |  |  |  | ! 2 alarmes       |                  | 0 alarmes         |     |     |       |
-|          |  |  |  +---------+---------+                  +---------+---------+     |     |       |
-|          |  |  |            | S1, S2                               | S1, S2        |     |       |
-|          |  |  +------------+--------------------------------------+---------------+     |       |
-|          |  |               |                                      |                     |       |
-|          |  |  +- Process Bus (W4) -- Layer 2 -----------------------------------------------+   |
-|          |  |  |            |                                      |                         |   |
-|          |  |  |            | P1           GOOSE/SV                | P1                      |   |
-|          |  |  |  +---------+---------+  <-------------  +---------+---------+               |   |
-|          |  |  |  | * MU_360_1   [mu] |  ---- SV ---->   | (L90_DIG)         |               |   |
-|          |  |  |  | GE Vernova        |  ---- SV ---->   | (T60_DIG)         |               |   |
-|          |  |  |  | MU360 v1.0        |  <-- GOOSE --    | (ref. acima)      |               |   |
-|          |  |  |  | 0 alarmes         |                  +-------------------+               |   |
-|          |  |  |  +---------+---------+                                                      |   |
-|          |  |  |            |                                                                |   |
-|          |  |  |            |              +- - - - - - - - - - -+                           |   |
-|          |  |  |            | <-- GOOSE -- | · DUCD_3T3  [proxy] |                           |   |
-|          |  |  |            |              | (sem CID)           |                           |   |
-|          |  |  |            |              +- - - - - - - - - - -+                           |   |
-|          |  |  |            |                                                                |   |
-|          |  |  |            |              +- - - - - - - - - - -+                           |   |
-|          |  |  |            | <-- GOOSE -- | · DUCD_3T1  [proxy] |                           |   |
-|          |  |  |            |              | (sem CID)           |                           |   |
-|          |  |  |            |              +- - - - - - - - - - -+                           |   |
-|          |  |  |                                                                             |   |
-|          |  |  +-----------------------------------------------------------------------------+   |
-|          |  |               |                                                                |   |
-|          |  |  +- Process Bus Principal (W01) ----------------------------------------+      |   |
-|          |  |  |            |                                                         |      |   |
-|          |  |  |  +---------+---------+            +-------------------+              |      |   |
-|          |  |  |  | (MU_360_1)        |            | o MU320E_LAB [mu] |              |      |   |
-|          |  |  |  | (ref. acima)      |            | GE                |              |      |   |
-|          |  |  |  |                   |            | Meas. v6.1        |              |      |   |
-|          |  |  |  |                   |            | AUSENTE           |              |      |   |
-|          |  |  |  +-------------------+            +---------+---------+              |      |   |
-|          |  |  +--------------------------------------------+------------------------+      |   |
-|          |  |                                               |                                |   |
-|          |  |  +- Redes Auxiliares ---------------------------------------------------+      |   |
-|          |  |  |                                                                     |      |   |
-|          |  |  |  +- W02 (Backup) --------+      +- W03 (Admin IP) --------+        |      |   |
-|          |  |  |  |  (MU320E_LAB)         |      |  (MU_360_1)             |        |      |   |
-|          |  |  |  |  Ethernet_2           |      |  ADMIN_AP               |        |      |   |
-|          |  |  |  +-----------------------+      +--------------------------+        |      |   |
-|          |  |  |                                                                     |      |   |
-|          |  |  +---------------------------------------------------------------------+      |   |
+|          |  |  |  +-------------------+            +-------------------+            |     |      |
+|          |  |  |  | * DUCD_3T3  [ied] |            | * DUPC_3L1  [ied] |            |     |      |
+|          |  |  |  | GE Multilin       |            | GE Multilin       |            |     |      |
+|          |  |  |  | C60 v8.60         |            | L90 v8.60         |            |     |      |
+|          |  |  |  | ! 2 alarmes       |            | 0 alarmes         |            |     |      |
+|          |  |  |  +---------+---------+            +---------+---------+            |     |      |
+|          |  |  |            |                                |                      |     |      |
+|          |  |  |  +-------------------+            +-------------------+            |     |      |
+|          |  |  |  | * DUPC_0B   [ied] |            | * PUPC_3P1  [ied] |            |     |      |
+|          |  |  |  | GE Multilin       |            | GE Multilin       |            |     |      |
+|          |  |  |  | B30 v8.60         |            | C60 v8.60         |            |     |      |
+|          |  |  |  | 0 alarmes         |            | 0 alarmes         |            |     |      |
+|          |  |  |  +---------+---------+            +---------+---------+            |     |      |
+|          |  |  |            |                                |                      |     |      |
+|          |  |  +------------+--------------------------------+----------------------+     |      |
+|          |  |               |                                |                            |      |
+|          |  |  +- Process Bus (W01) -- Layer 2 ------------------------------------------+       |
+|          |  |  |            |                                |                            |      |
+|          |  |  |            | P1         GOOSE/SV            | P1                         |      |
+|          |  |  |  +---------+---------+            +---------+---------+                  |      |
+|          |  |  |  | * MU1_0P3    [mu] |            | * MU2_3T3    [mu] |                  |      |
+|          |  |  |  | GE                | -- SV -->  | GE                |                  |      |
+|          |  |  |  | MU v1.0           | <--GOOSE-- | MU v1.0           |                  |      |
+|          |  |  |  | 0 alarmes         |            | 0 alarmes         |                  |      |
+|          |  |  |  +---------+---------+            +---------+---------+                  |      |
+|          |  |  |            |  -- SV -->  DUCD_3T3, DUPC_3L1                              |      |
+|          |  |  |            |  <-- GOOSE --  DUCD_3T3                                     |      |
+|          |  |  |                                                                          |      |
+|          |  |  |  +-------------------+            +--------------------+                 |      |
+|          |  |  |  | * PUCD_3T3  [ied] |            | * UAD_3L1  [other] |                 |      |
+|          |  |  |  | GE Multilin       |            | GE Multilin        |                 |      |
+|          |  |  |  | C60 v8.60         |            | UAD v1.0           |                 |      |
+|          |  |  |  | 0 alarmes         |            | o AUSENTE           |                 |     |
+|          |  |  |  +-------------------+            +--------------------+                 |      |
+|          |  |  |                                                                          |      |
+|          |  |  +--------------------------------------------------------------------------+      |
 |          |  |                                                                            |       |
-|          |  |  Nota: Este diagrama e CONCEITUAL. O grafo real sera renderizado por        |       |
-|          |  |  uma biblioteca de grafos (Canvas/WebGL). Os nos que aparecem em            |       |
-|          |  |  multiplas redes sao representados como um unico no do grafo com            |       |
-|          |  |  conexoes para cada sub-rede. As zonas (Station Bus, Process Bus, etc.)     |       |
-|          |  |  agrupam visualmente os nos conectados a cada sub-rede.                     |       |
+|          |  |  +- Redes Auxiliares ---------------------------------------------------+          |
+|          |  |  |                                                                     |           |
+|          |  |  |  +- W02 (Backup) --------+      +- W4_GE -----------------+        |            |
+|          |  |  |  |  (MU1_0P3)            |      |  (DUCD_3T3, MU2_3T3)    |        |            |
+|          |  |  |  |  Ethernet_2           |      |  Process GOOSE          |        |            |
+|          |  |  |  +-----------------------+      +--------------------------+        |           |
+|          |  |  |                                                                     |           |
+|          |  |  +---------------------------------------------------------------------+           |
+|          |  |                                                                            |       |
+|          |  |  Nota: Este diagrama e CONCEITUAL. O grafo real sera renderizado por        |      |
+|          |  |  uma biblioteca de grafos (Canvas/WebGL). Os nos que aparecem em            |      |
+|          |  |  multiplas redes sao representados como um unico no do grafo com            |      |
+|          |  |  conexoes para cada sub-rede. As zonas (Station Bus, Process Bus, etc.)     |      |
+|          |  |  agrupam visualmente os nos conectados a cada sub-rede.                     |      |
 |          |  |                                                                            |       |
 |          |  |  Proxy nodes (borda tracejada) sao exibidos por padrao com visual muted.   |       |
 |          |  |  O toggle "Mostrar proxies" permite oculta-los. Em zoom baixo, proxies     |       |
-|          |  |  colapsam primeiro. Na escala real (200+ nos), os filtros por subnet e      |       |
+|          |  |  colapsam primeiro. Na escala real (200+ nos), os filtros por subnet e      |      |
 |          |  |  tipo de no sao essenciais para navegacao.                                 |       |
 |          |  |                                                                            |       |
 |          |  +----------------------------------------------------------------------------+       |
@@ -113,10 +109,10 @@ A tela apresenta os **IEDs** (Intelligent Electronic Devices) e **proxy nodes** 
 |          |  |  [mu]  Merging Unit (publica SV)     [ied]  IED (assina SV, nao publica)   |       |
 |          |  |  [other] Outro (sem SV)              [proxy] Proxy (sem CID carregado)     |       |
 |          |  |                                                                            |       |
-|          |  |  ESTADOS (cor/borda — aplicam-se a nos reais mu/ied/other):                |       |
+|          |  |  ESTADOS (cor/borda -- aplicam-se a nos reais mu/ied/other):                |      |
 |          |  |  * Normal (verde, borda solida)      o Ausente (cinza, borda tracejada)    |       |
 |          |  |  N Falha (vermelho, borda solida)    ! Inesperado (laranja, pontilhada)    |       |
-|          |  |  · Proxy (cinza claro, borda tracejada fina, opacidade reduzida)           |       |
+|          |  |  . Proxy (cinza claro, borda tracejada fina, opacidade reduzida)           |       |
 |          |  |                                                                            |       |
 |          |  |  CONEXOES:                                                                 |       |
 |          |  |  --- SV -->  Fluxo Sampled Values    --- GOOSE -->  Fluxo GOOSE            |       |
@@ -131,7 +127,7 @@ A tela apresenta os **IEDs** (Intelligent Electronic Devices) e **proxy nodes** 
 **Detalhamento da area de topologia:**
 
 - **Zonas de rede**: Cada sub-rede e representada como uma regiao visual (container com borda e label). As zonas agrupam os nos conectados aquela sub-rede.
-- **Nos de IED (reais)**: Cada IED real (tipo mu/ied/other) e representado como um card/caixa contendo: indicador de tipo `[mu]`/`[ied]`/`[other]`, nome, vendor, tipo/config version e badge de alarmes. Um IED que aparece em multiplas redes (ex: L90_DIG em W1, W2, W4, W01) e renderizado como um unico no do grafo com arestas para cada zona.
+- **Nos de IED (reais)**: Cada IED real (tipo mu/ied/other) e representado como um card/caixa contendo: indicador de tipo `[mu]`/`[ied]`/`[other]`, nome, vendor, tipo/config version e badge de alarmes. Um IED que aparece em multiplas redes (ex: DUCD_3T3 em W1, W2, W01, W4_GE) e renderizado como um unico no do grafo com arestas para cada zona.
 - **Nos de Proxy**: Representados como cards com borda tracejada (`+- - -+`), opacidade reduzida, cinza claro. Exibem apenas nome e label `[proxy]` + "(sem CID)". Sem vendor, tipo, badges de alarme. Posicionados dentro das zonas de rede onde suas edges existem (inferido do campo `subnet` da edge).
 - **Conexoes (arestas)**: Linhas entre nos indicando fluxos de dados. Setas indicam direcao (publisher -> subscriber). Rotuladas com o protocolo (SV, GOOSE). **Clicaveis** — abrem o drawer de edge com detalhes do stream.
 - **Layout automatico**: O grafo utiliza layout automatico (force-directed ou hierarquico). O designer deve prever que a disposicao exata dos nos pode variar — o importante e a organizacao por zonas e a visibilidade das conexoes.
@@ -157,35 +153,35 @@ A tela apresenta os **IEDs** (Intelligent Electronic Devices) e **proxy nodes** 
 
 Abre pela direita quando o usuario clica em um no de IED real (tipo mu/ied/other) na topologia. Ocupa aproximadamente 40% da largura da area de conteudo. A topologia permanece visivel ao fundo (com overlay escurecido opcional).
 
-**Exemplo com dados reais do L90_DIG:**
+**Exemplo com dados reais do DUCD_3T3:**
 
 ```
                               +--------------------------------------------+
                               | [X]                                        |
                               |                                            |
-                              |  * L90_DIG                          [ied]  |
+                              |  * DUCD_3T3                         [ied]  |
                               |  -----------------------------------       |
                               |                                            |
                               |  -- Informacoes do IED --                  |
                               |                                            |
                               |  Tipo:           ied                       |
                               |  Vendor:         GE Multilin               |
-                              |  Modelo:         L90                       |
+                              |  Modelo:         C60                       |
                               |  Descricao:      UR                        |
                               |  Config Version: 8.60                      |
                               |  Logical Devices: 3                        |
                               |  Pontos MMS:     42                        |
-                              |    (LGOS: 20, LSVS: 12, LTMS: 10)         |
+                              |    (LGOS: 20, LSVS: 12, LTMS: 10)          |
                               |                                            |
                               |  -- Redes / IPs --                         |
                               |                                            |
                               |  +--------+------------------+             |
                               |  | Rede   | IP               |             |
                               |  +--------+------------------+             |
-                              |  | W1     | 192.168.110.104  |             |
-                              |  | W2     | 192.168.110.104  |             |
-                              |  | W4     | (Layer 2)        |             |
+                              |  | W1     | 172.30.184.149   |             |
+                              |  | W2     | 172.30.184.149   |             |
                               |  | W01    | (Layer 2)        |             |
+                              |  | W4_GE  | (Layer 2)        |             |
                               |  +--------+------------------+             |
                               |                                            |
                               |  -- Alarmes Ativos (2) --                  |
@@ -201,7 +197,7 @@ Abre pela direita quando o usuario clica em um no de IED real (tipo mu/ied/other
                               |                                            |
                               |  < Ver todos os alarmes deste IED >        |
                               |  (navega para /alarms filtrado por         |
-                              |   L90_DIG)                                 |
+                              |   DUCD_3T3)                                |
                               |                                            |
                               |  -- Monitoramento --                       |
                               |                                            |
@@ -210,7 +206,7 @@ Abre pela direita quando o usuario clica em um no de IED real (tipo mu/ied/other
                               |  +-----------+----------+----------+       |
                               |  | SV        | LDTM1    | * running|       |
                               |  | GOOSE     | GoCB01   | * running|       |
-                              |  | PTP       | L90_DIG  | * running|       |
+                              |  | PTP       | DUCD_3T3 | * running|       |
                               |  +-----------+----------+----------+       |
                               |                                            |
                               +--------------------------------------------+
@@ -236,7 +232,7 @@ Abre pela direita quando o usuario clica em um no de proxy na topologia. Mesmo t
                               +--------------------------------------------+
                               | [X]                                        |
                               |                                            |
-                              |  · DUCD_3T1                      [proxy]   |
+                              |  . DUCD_3T1                      [proxy]   |
                               |  -----------------------------------       |
                               |                                            |
                               |  -- Informacoes Limitadas --               |
@@ -246,7 +242,7 @@ Abre pela direita quando o usuario clica em um no de proxy na topologia. Mesmo t
                               |                  URPC_GOOSE_Proxy          |
                               |  Arquivo origem: PUPC_3B.CID               |
                               |                                            |
-                              |  Nota: Este no e um proxy — referenciado   |
+                              |  Nota: Este no e um proxy -- referenciado  |
                               |  em streams GOOSE/SV mas sem arquivo CID   |
                               |  carregado. Dados detalhados nao           |
                               |  disponiveis.                              |
@@ -256,8 +252,8 @@ Abre pela direita quando o usuario clica em um no de proxy na topologia. Mesmo t
                               |  +----------+--------+------------------+  |
                               |  | Protocolo| De/Para| Stream           |  |
                               |  +----------+--------+------------------+  |
-                              |  | GOOSE    | -> L90 | TxGOOSE1         |  |
-                              |  | GOOSE    | -> MU1 | TxGOOSE3         |  |
+                              |  | GOOSE    | ->DUCD | TxGOOSE1         |  |
+                              |  | GOOSE    | ->MU1  | TxGOOSE3         |  |
                               |  +----------+--------+------------------+  |
                               |                                            |
                               |  -- Monitoramento Parcial --               |
@@ -291,7 +287,7 @@ Abre pela direita quando o usuario clica em uma conexao (aresta) entre nos na to
                               | [X]                                        |
                               |                                            |
                               |  --- GOOSE -->                             |
-                              |  L90_DIG -> MU_360_1                       |
+                              |  DUCD_3T3 -> MU1_0P3                       |
                               |  -----------------------------------       |
                               |                                            |
                               |  -- Informacoes do Stream --               |
@@ -299,8 +295,8 @@ Abre pela direita quando o usuario clica em uma conexao (aresta) entre nos na to
                               |  Protocolo:      GOOSE                     |
                               |  Stream ID:      TxGOOSE1                  |
                               |  Control Block:  GoCB01                    |
-                              |  Publisher:      L90_DIG                   |
-                              |  Subscribers:    MU_360_1                  |
+                              |  Publisher:      DUCD_3T3                  |
+                              |  Subscribers:    MU1_0P3                   |
                               |                                            |
                               |  -- Parametros de Rede --                  |
                               |                                            |
@@ -354,7 +350,7 @@ Exibido quando a chamada `GET /scds?latest=true` nao retorna nenhum SCD com stat
 |          |         |      A topologia sera exibida apos a ativacao       |                   |
 |          |         |      de um arquivo SCD em Configuracao.             |                   |
 |          |         |                                                     |                   |
-|          |         |      < Ir para Configuracao >                       ||
+|          |         |      < Ir para Configuracao >                       |                   |
 |          |         |                                                     |                   |
 |          |         +-----------------------------------------------------+                   |
 |          |                                                                                   |
@@ -399,10 +395,10 @@ Exibido quando a chamada `GET /scds?latest=true` nao retorna nenhum SCD com stat
 | # | Metodo | Endpoint | Uso na tela | Campos utilizados | Exemplo |
 |---|---|---|---|---|---|
 | 1 | `GET` | `/api/v1/scds?latest=true` | Obter o SCD ativo | `scdId`, `status` | Retorna o SCD mais recente; se `status != ACTIVE`, exibir estado vazio |
-| 2 | `GET` | `/api/v1/scds/{scdId}/summary` | Nome da subestacao, contagens, opcoes de filtro | `substationName`, `ieds` (int), `ieds_proxy` (int), `subnets` (int), `type` (object: mu/ied/other/proxy counts), `goose_streams` (int), `sv_streams` (int), `mms_points` (object), `subscriptions` (object), `diagnostics` (object), `vendors` (string[]), `source_files` (int) | `GET /api/v1/scds/181b236a/summary` → `substationName: "MU_360_1"`, `ieds: 42`, `ieds_proxy: 161`, `subnets: 9`, `type: {mu: 16, ied: 20, other: 6, proxy: 161}` |
-| 3 | `GET` | `/api/v1/scds/{scdId}/IEDS` | Detalhes completos de cada IED real (para o drawer de IED) | `data[]` — cada IED contem: `ied_name`, `vendor`, `desc`, `type`, `config_version`, `logical_device_count`, `data_attribute_count`, `logical_nodes` (LGOS[], LSVS[], LTMS[]) | `GET /api/v1/scds/181b236a/IEDS` → `[{ied_name: "L90_DIG", vendor: "GE Multilin", type: "L90", config_version: "8.60", logical_device_count: 3, data_attribute_count: 42, ...}]` |
+| 2 | `GET` | `/api/v1/scds/{scdId}/summary` | Nome da subestacao, contagens, opcoes de filtro | `substationName`, `ieds` (int), `ieds_proxy` (int), `subnets` (int), `type` (object: mu/ied/other/proxy counts), `goose_streams` (int), `sv_streams` (int), `mms_points` (object), `subscriptions` (object), `diagnostics` (object), `vendors` (string[]), `source_files` (int) | `GET /api/v1/scds/181b236a/summary` → `substationName: "SE Exemplo"`, `ieds: 42`, `ieds_proxy: 161`, `subnets: 9`, `type: {mu: 16, ied: 20, other: 6, proxy: 161}` |
+| 3 | `GET` | `/api/v1/scds/{scdId}/IEDS` | Detalhes completos de cada IED real (para o drawer de IED) | `data[]` — cada IED contem: `ied_name`, `vendor`, `desc`, `type`, `config_version`, `logical_device_count`, `data_attribute_count`, `logical_nodes` (LGOS[], LSVS[], LTMS[]) | `GET /api/v1/scds/181b236a/IEDS` → `[{ied_name: "DUCD_3T3", vendor: "GE Multilin", type: "C60", config_version: "8.60", logical_device_count: 3, data_attribute_count: 42, ...}]` |
 | 4 | `GET` | `/api/v1/scds/{scdId}/NETWORKS` | Topologia de rede (grafo completo com nos, edges, subnets) | `data.nodes[]`, `data.edges[]`, `data.subnets[]` — ver estrutura detalhada abaixo | `GET /api/v1/scds/181b236a/NETWORKS` → 203 nos (42 reais + 161 proxies), 269 edges, 9 subnets |
-| 5 | `GET` | `/api/v1/monitoring` | Estado global do monitoramento + lista de itens monitorados | `enabled`, `state` (STOPPED/STARTING/RUNNING/STOPPING/ERROR), `sinceUtc`, `monitorings[]` (id, protocol, target, status, updatedAtUtc) | `GET /api/v1/monitoring` → `state: "RUNNING"`, `sinceUtc: "2026-02-19T13:00:00Z"`, `monitorings: [{protocol: "SV", target: "LDTM1", status: "running"}, ...]` |
+| 5 | `GET` | `/api/v1/monitoring` | Estado global do monitoramento + lista de itens monitorados | `enabled`, `state` (STOPPED/STARTING/RUNNING/STOPPING/ERROR), `sinceUtc`, `monitorings[]` (id, protocol, target, status, updatedAtUtc) | `GET /api/v1/monitoring` → `state: "RUNNING"`, `sinceUtc: "2026-03-27T13:00:00Z"`, `monitorings: [{protocol: "SV", target: "LDTM1", status: "running"}, ...]` |
 | 6 | `GET` | `/api/v1/alarms?ack=false` | Alarmes ativos nao reconhecidos (para badges nos IEDs e secao do drawer) | `items[]` (alarmId, timestampUtc, type, severity, summary, details, occurrences, ack, pcapId) | `GET /api/v1/alarms?ack=false` → `items: [{type: "LOSS_OF_SIGNAL", severity: "CRITICAL", summary: "Perda de sinal SV stream LDTM1"}, ...]` |
 
 ### Estrutura detalhada do endpoint NETWORKS
@@ -413,12 +409,12 @@ O endpoint `/api/v1/scds/{scdId}/NETWORKS` retorna o grafo completo para visuali
 
 ```json
 {
-  "id": "L90_DIG",
+  "id": "DUCD_3T3",
   "type": "ied",
   "vendor": "GE Multilin",
-  "ied_type": "L90",
-  "ips": ["192.168.110.104"],
-  "subnets": ["W01", "W1", "W2", "W4"]
+  "ied_type": "C60",
+  "ips": ["172.30.184.149"],
+  "subnets": ["W01", "W1", "W2", "W4_GE"]
 }
 ```
 
@@ -435,17 +431,17 @@ O endpoint `/api/v1/scds/{scdId}/NETWORKS` retorna o grafo completo para visuali
 
 ```json
 {
-  "id": "goose_L90_DIG_GoCB01",
+  "id": "goose_MU1_0P3_FastGOOSE1",
   "protocol": "goose",
-  "from": "L90_DIG",
-  "to": ["MU_360_1"],
-  "stream_id": "TxGOOSE1",
+  "from": "MU1_0P3",
+  "to": ["DUCD_3T3"],
+  "stream_id": "FastGOOSE1",
   "cb_name": "GoCB01",
   "dest_mac": "01:0c:cd:01:00:00",
   "app_id": "0x0000",
   "vlan_id": "0x0837",
   "conf_rev": 1,
-  "subnet": "W4"
+  "subnet": "W01"
 }
 ```
 
@@ -471,7 +467,7 @@ O endpoint `/api/v1/scds/{scdId}/NETWORKS` retorna o grafo completo para visuali
   "name": "W1",
   "type": "8-MMS",
   "desc": "",
-  "ieds": ["L90_DIG", "T60_DIG"]
+  "ieds": ["DUCD_3T3", "DUPC_3L1", "DUPC_0B", "PUPC_3P1"]
 }
 ```
 
@@ -571,7 +567,7 @@ O carregamento e feito em etapas para garantir uma experiencia progressiva:
 ### 2. Clique em um no de IED real (abrir drawer)
 
 ```
-> Usuario clica em um no de IED real (tipo mu/ied/other) na topologia (ex: L90_DIG)
+> Usuario clica em um no de IED real (tipo mu/ied/other) na topologia (ex: DUCD_3T3)
 > Frontend coleta dados do IED ja carregados (cache das etapas 3-4)
 > Frontend filtra alarmes ativos para este IED (cache da etapa 5)
 > Frontend filtra itens de monitoramento para este IED (cache da etapa 5)
@@ -595,7 +591,7 @@ O carregamento e feito em etapas para garantir uma experiencia progressiva:
      - Nota explicativa sobre natureza do proxy
      - Conexoes: tabela de edges (protocolo, direcao, stream ID)
      - Monitoramento parcial: texto sobre LGOS/LSVS dos subscribers
-> Nota: SEM secao de alarmes — proxies nao geram alarmes proprios
+> Nota: SEM secao de alarmes -- proxies nao geram alarmes proprios
 ```
 
 ### 2c. Clique em uma edge (abrir drawer de edge)
@@ -659,7 +655,7 @@ O carregamento e feito em etapas para garantir uma experiencia progressiva:
      - Zoom alto: detalhes completos (vendor, config version, badges de alarme)
 > Usuario arrasta para pan (mover a area visivel do grafo)
 > Double-click em zona de rede: zoom para enquadrar a zona
-> Proxies colapsam primeiro — em zoom baixo, sao os primeiros a serem ocultados
+> Proxies colapsam primeiro -- em zoom baixo, sao os primeiros a serem ocultados
 ```
 
 ### 7. Filtros e controles
@@ -682,7 +678,7 @@ O carregamento e feito em etapas para garantir uma experiencia progressiva:
      > Checkbox marcado por padrao (proxies visiveis)
 
 > Busca por nome:
-     > Usuario digita nome parcial de IED no campo de busca (ex: "L90")
+     > Usuario digita nome parcial de IED no campo de busca (ex: "DUCD")
      > Grafo destaca o(s) no(s) encontrado(s) com highlight visual
      > Zoom automatico para centralizar o no encontrado
      > Limpar busca restaura visualizacao normal
@@ -802,5 +798,5 @@ Nota: Proxies nao participam da logica de prioridade — possuem estado visual f
 - `08-autenticacao.md` — Tela de login (apos autenticacao, redirect vai para Dashboard `/`, nao mais para Topologia)
 - `docs/extras-2026-03-16/2.2. Documentacao SCD.md` — Parser SCD: estrutura de Networks (nodes, edges, subnets), Proxy Nodes, Summary
 - `docs/extras-2026-03-16/2. Exemplo SCD.json` — Exemplo real: 42 IEDs, 161 proxies, 9 subnets, 269 edges
-- `docs/parsed-scd/scd.md` — Dados da subestacao de exemplo (4 IEDs, 6 sub-redes)
+- `docs/parsed-scd/scd.md` — Dados da subestacao de exemplo (42 IEDs, 9 sub-redes)
 - `docs/structure-proposal/frontend-recommendations.md` — Estrategia de renderizacao de topologia (carregamento progressivo, virtualizacao, cache, zoom semantico)

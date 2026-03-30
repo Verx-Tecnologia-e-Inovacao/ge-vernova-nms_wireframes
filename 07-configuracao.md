@@ -122,7 +122,7 @@ The Settings layout renders a tab bar below the global header. Each tab is a `<L
 |          |  |                                                                            |         |
 |          |  |  File Name                  | Status      | Created          | Parsed           | Activated  |
 |          |  |  ---------------------------+-------------+------------------+------------------+------------|
-|          |  |  SubstationXYZ_2026.scd     | * ACTIVE    | 18/02/2026 09:15 | 18/02/2026 09:16 | 18/02 09:20|
+|          |  |  SubstationXYZ_2026.scd     | * ACTIVE    | 26/03/2026 09:15 | 26/03/2026 09:16 | 26/03 09:20|
 |          |  |  v (expanded)               | (green)     |                  |                  |            |
 |          |  |                                                                                           |
 |          |  |  +- Inline expansion: SubstationXYZ_2026.scd -----------------------------------+         |
@@ -134,11 +134,11 @@ The Settings layout renders a tab bar below the global header. Each tab is a `<L
 |          |  |  +-------------------------------------------------------------------------------+         |
 |          |  |                                                                                           |
 |          |  |  ---------------------------+-------------+------------------+------------------+------------|
-|          |  |  PUPC_3B_20260201.CID       | o PARSED    | 20/02/2026 14:30 | 20/02/2026 14:31 |     -      |
+|          |  |  PUPC_3B_20260201.CID       | o PARSED    | 28/03/2026 14:30 | 28/03/2026 14:31 |     -      |
 |          |  |  ---------------------------+-------------+------------------+------------------+------------|
-|          |  |  L90_DIG-Lab_20260129.CID   | ! STALLED   | 17/02/2026 09:15 |        -         |     -      |
+|          |  |  DUCD_3T3.CID               | ! STALLED   | 25/03/2026 09:15 |        -         |     -      |
 |          |  |  ---------------------------+-------------+------------------+------------------+------------|
-|          |  |  SubstationXYZ_2025.scd     | o INACTIVE  | 10/01/2026 08:00 | 10/01/2026 08:02 | 10/01 08:10|
+|          |  |  SubstationXYZ_2025.scd     | o INACTIVE  | 15/02/2026 08:00 | 15/02/2026 08:02 | 15/02 08:10|
 |          |  |                                                                                           |
 |          |  |  < Prev   Page 1 of 1   Next >    Showing 4 of 4                                         |
 |          |  +------------------------------------------------------------------------------------+      |
@@ -172,7 +172,7 @@ When a row is expanded, the detail panel shows two inner tabs: Summary and Diagn
 |  |  (Summary tab active)                                                                |         |
 |  |                                                                                      |         |
 |  |  Substation: SubstationXYZ     Status: * ACTIVE                                     |         |
-|  |  Parsed:     18/02/2026 09:16  Activated: 18/02/2026 09:20                          |         |
+|  |  Parsed:     26/03/2026 09:16  Activated: 26/03/2026 09:20                          |         |
 |  |  Source file: SubstationXYZ_2026.scd  (+41 CID files)                               |         |
 |  |                                                                                      |         |
 |  |  +- IEDs ------------------+  +- Streams ---------------+  +- Subscriptions ------+ |         |
@@ -277,7 +277,7 @@ When the Diagnostics tab is clicked, the inner content switches to the diagnosti
 |  |  |                                                                             |   |         |
 |  |  |  Type                   | Message (truncated)                     | File           |
 |  |  |  -----------------------+-----------------------------------------+----------------|
-|  |  |  subscriptions_invalid  | Publisher IED not found: @              | MU_360_1.CID   |
+|  |  |  subscriptions_invalid  | Publisher IED not found: @              | MU1_0P3.cid    |
 |  |  |  lgos_orphan            | LGOS configured for 'UPA_3T4_G03' but.. | DUPC_0B.CID    |
 |  |  |  lsvs_orphan            | LSVS configured for 'MU_OLD_SV01'...    | PUPC_3L1.CID   |
 |  |  |  goose_shared_mac       | 2 GOOSE streams share same dest MAC..   | MU2_3L1.CID    |
@@ -319,8 +319,8 @@ When the Diagnostics tab is clicked, the inner content switches to the diagnosti
 |  |  |  -----------------------+-----------------------------------------+----------------|
 |  |  |  ieds_proxy             | IED DUCD_3T1 referenced but CID missing | PUPC_3B.CID    |
 |  |  |  ieds_proxy             | IED UPA_3T4 referenced but CID missing  | PUPC_3B.CID    |
-|  |  |  ieds_duplicates        | L90_DIG found in 2 files, selected...   | L90_DIG.CID    |
-|  |  |  goose_duplicates       | GoCB01 (L90_DIG) found in 3 files...    | MU_360_1.CID   |
+|  |  |  ieds_duplicates        | DUCD_3T3 found in 2 files, selected..   | DUCD_3T3.CID   |
+|  |  |  goose_duplicates       | GoCB01 (DUCD_3T3) found in 3 files..    | MU1_0P3.cid    |
 |  |  |  subscriptions_valid    | PUPC_0P3 -> MU1_0P3 CTRL/LLN0 Ind089   | MU1_0P3.CID    |
 |  |  |  (click row to open detail drawer)                                          |   |         |
 |  |  |                                                                             |   |         |
@@ -717,7 +717,7 @@ The Actions area appears at the bottom of the inline expansion panel. Available 
 |          |  |  +- Status card (full-width) -------------------------------------------+    |     |
 |          |  |  |                                                                       |    |     |
 |          |  |  |  * RUNNING                                                           |    |     |
-|          |  |  |  Since: 19/02/2026 10:00                                             |    |     |
+|          |  |  |  Since: 27/03/2026 10:00                                             |    |     |
 |          |  |  |  Started by: admin@empresa.com                                       |    |     |
 |          |  |  |                                                                       |    |     |
 |          |  |  |  [Stop Monitoring]                                                   |    |     |
@@ -729,11 +729,11 @@ The Actions area appears at the bottom of the inline expansion panel. Available 
 |          |  |  |                                                                        |    |     |
 |          |  |  |  Protocol | Target                   | Status   | Last Update         |    |     |
 |          |  |  |  ---------+--------------------------+----------+---------------------|    |     |
-|          |  |  |  SV       | LDTM1                    | running  | 19/02/2026 14:32    |    |     |
-|          |  |  |  GOOSE    | GoCB01                   | running  | 19/02/2026 14:32    |    |     |
-|          |  |  |  PTP      | L90_DIG                  | running  | 19/02/2026 14:32    |    |     |
-|          |  |  |  MMS      | 192.168.110.104          | running  | 19/02/2026 14:32    |    |     |
-|          |  |  |  SNMP     | 192.168.110.105          | running  | 19/02/2026 14:32    |    |     |
+|          |  |  |  SV       | LDTM1                    | running  | 27/03/2026 14:32    |    |     |
+|          |  |  |  GOOSE    | GoCB01                   | running  | 27/03/2026 14:32    |    |     |
+|          |  |  |  PTP      | DUCD_3T3                 | running  | 27/03/2026 14:32    |    |     |
+|          |  |  |  MMS      | 192.168.110.104          | running  | 27/03/2026 14:32    |    |     |
+|          |  |  |  SNMP     | 192.168.110.105          | running  | 27/03/2026 14:32    |    |     |
 |          |  |  |                                                                        |    |     |
 |          |  |  +------------------------------------------------------------------------+    |     |
 |          |  |                                                                               |     |
@@ -762,7 +762,7 @@ The Actions area appears at the bottom of the inline expansion panel. Available 
 |          |  |  +- Status card (full-width) -------------------------------------------+    |     |
 |          |  |  |                                                                       |    |     |
 |          |  |  |  o STOPPED                                                           |    |     |
-|          |  |  |  Since: 19/02/2026 15:30                                             |    |     |
+|          |  |  |  Since: 27/03/2026 15:30                                             |    |     |
 |          |  |  |  Stopped by: admin@empresa.com                                       |    |     |
 |          |  |  |                                                                       |    |     |
 |          |  |  |  [Start Monitoring]                                                  |    |     |
@@ -803,7 +803,7 @@ The Actions area appears at the bottom of the inline expansion panel. Available 
 +- Status card -------------------------------------------------------------------+
 |                                                                                 |
 |  ! ERROR                                                                        |
-|  Since: 19/02/2026 16:00                                                        |
+|  Since: 27/03/2026 16:00                                                        |
 |  The monitoring engine encountered an error.                                    |
 |  Check system logs for details.                                                 |
 |                                                                                 |
@@ -1329,25 +1329,25 @@ Returns the paginated SCD list.
       "fileName": "SubstationXYZ_2026.scd",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "ACTIVE",
-      "createdAtUtc": "2026-02-18T12:15:00Z",
-      "parsedAtUtc": "2026-02-18T12:15:42Z",
-      "activatedAtUtc": "2026-02-18T12:20:00Z"
+      "createdAtUtc": "2026-03-26T12:15:00Z",
+      "parsedAtUtc": "2026-03-26T12:15:42Z",
+      "activatedAtUtc": "2026-03-26T12:20:00Z"
     },
     {
       "scdId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
       "fileName": "PUPC_3B_20260201.CID",
       "sha256": "abc123def456abc123def456abc123def456abc123def456abc123def456abc1",
       "status": "PARSED",
-      "createdAtUtc": "2026-02-20T17:30:00Z",
-      "parsedAtUtc": "2026-02-20T17:30:58Z",
+      "createdAtUtc": "2026-03-28T17:30:00Z",
+      "parsedAtUtc": "2026-03-28T17:30:58Z",
       "activatedAtUtc": null
     },
     {
       "scdId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
-      "fileName": "L90_DIG-Lab_20260129.CID",
+      "fileName": "DUCD_3T3.CID",
       "sha256": "def456abc123def456abc123def456abc123def456abc123def456abc123def4",
       "status": "STALLED",
-      "createdAtUtc": "2026-02-17T12:15:00Z",
+      "createdAtUtc": "2026-03-25T12:15:00Z",
       "parsedAtUtc": null,
       "activatedAtUtc": null
     },
@@ -1356,9 +1356,9 @@ Returns the paginated SCD list.
       "fileName": "SubstationXYZ_2025.scd",
       "sha256": "f6a7b8c9d0e1f6a7b8c9d0e1f6a7b8c9d0e1f6a7b8c9d0e1f6a7b8c9d0e1f6",
       "status": "INACTIVE",
-      "createdAtUtc": "2026-01-10T11:00:00Z",
-      "parsedAtUtc": "2026-01-10T11:02:00Z",
-      "activatedAtUtc": "2026-01-10T11:10:00Z"
+      "createdAtUtc": "2026-02-15T11:00:00Z",
+      "parsedAtUtc": "2026-02-15T11:02:00Z",
+      "activatedAtUtc": "2026-02-15T11:10:00Z"
     }
   ],
   "meta": {
@@ -1380,13 +1380,16 @@ Enriched SCD summary. Populates the Summary tab in the inline expansion.
   "scdId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
   "status": "ACTIVE",
   "substationName": "SubstationXYZ",
-  "parsedAtUtc": "2026-02-18T12:15:42Z",
-  "activatedAtUtc": "2026-02-18T12:20:00Z",
+  "parsedAtUtc": "2026-03-26T12:15:42Z",
+  "activatedAtUtc": "2026-03-26T12:20:00Z",
   "sourceFiles": [
     "SubstationXYZ_2026.scd",
-    "L90_DIG-Lab_20260129.CID",
-    "MU_360_1_20260129.CID",
-    "T60_DIG_20260129.CID"
+    "DUCD_3T3.CID",
+    "MU1_0P3.cid",
+    "DUPC_3L1.CID",
+    "MU2_3T3.cid",
+    "DUPC_0B.CID",
+    "PUPC_3P1.CID"
   ],
   "summary": {
     "ieds": 42,
@@ -1568,7 +1571,7 @@ Full diagnostics detail. Loaded lazily when the Diagnostics tab is first opened.
       "subscriptions_invalid": [
         {
           "extref": {
-            "subscriber_ied": "MU_360_1",
+            "subscriber_ied": "MU1_0P3",
             "subscriber_ld": "LDSUIED",
             "subscriber_ln_class": "LPDO",
             "subscriber_ln_inst": "1",
@@ -1656,14 +1659,14 @@ Full diagnostics detail. Loaded lazily when the Diagnostics tab is first opened.
     "info": {
       "ieds_duplicates": [
         {
-          "ied_name": "L90_DIG",
+          "ied_name": "DUCD_3T3",
           "selected": {
-            "source_file": "L90_DIG-Lab_20260129.CID",
+            "source_file": "DUCD_3T3.CID",
             "logical_devices": 7
           },
           "duplicates": [
             {
-              "source_file": "MU_360_1_20260129.CID",
+              "source_file": "MU1_0P3.cid",
               "logical_devices": 3
             }
           ]
@@ -1685,15 +1688,15 @@ Full diagnostics detail. Loaded lazily when the Diagnostics tab is first opened.
       ],
       "goose_duplicates": [
         {
-          "publisher_ied": "L90_DIG",
+          "publisher_ied": "DUCD_3T3",
           "ld_inst": "Master",
           "cb_name": "GoCB01",
           "dest_mac": "01:0c:cd:01:00:00",
           "goose_id": "TxGOOSE1",
-          "source_file": "L90_DIG-Lab_20260129.CID",
+          "source_file": "DUCD_3T3.CID",
           "also_in": [
             {
-              "source_file": "MU_360_1_20260129.CID"
+              "source_file": "MU1_0P3.cid"
             },
             {
               "source_file": "PUPC_0P3.CID"
@@ -1757,42 +1760,42 @@ Monitoring engine status. State RUNNING:
 {
   "enabled": true,
   "state": "RUNNING",
-  "sinceUtc": "2026-02-19T13:00:00Z",
+  "sinceUtc": "2026-03-27T13:00:00Z",
   "monitorings": [
     {
       "id": "f1a2b3c4-d5e6-7890-abcd-111111111111",
       "protocol": "SV",
       "target": "LDTM1",
       "status": "running",
-      "updatedAtUtc": "2026-02-19T17:32:00Z"
+      "updatedAtUtc": "2026-03-27T17:32:00Z"
     },
     {
       "id": "f1a2b3c4-d5e6-7890-abcd-222222222222",
       "protocol": "GOOSE",
       "target": "GoCB01",
       "status": "running",
-      "updatedAtUtc": "2026-02-19T17:32:00Z"
+      "updatedAtUtc": "2026-03-27T17:32:00Z"
     },
     {
       "id": "f1a2b3c4-d5e6-7890-abcd-333333333333",
       "protocol": "PTP",
-      "target": "L90_DIG",
+      "target": "DUCD_3T3",
       "status": "running",
-      "updatedAtUtc": "2026-02-19T17:32:00Z"
+      "updatedAtUtc": "2026-03-27T17:32:00Z"
     },
     {
       "id": "f1a2b3c4-d5e6-7890-abcd-444444444444",
       "protocol": "MMS",
       "target": "192.168.110.104",
       "status": "running",
-      "updatedAtUtc": "2026-02-19T17:32:00Z"
+      "updatedAtUtc": "2026-03-27T17:32:00Z"
     },
     {
       "id": "f1a2b3c4-d5e6-7890-abcd-555555555555",
       "protocol": "SNMP",
       "target": "192.168.110.105",
       "status": "running",
-      "updatedAtUtc": "2026-02-19T17:32:00Z"
+      "updatedAtUtc": "2026-03-27T17:32:00Z"
     }
   ],
   "stoppedAtUtc": null,
@@ -1806,9 +1809,9 @@ State STOPPED:
 {
   "enabled": false,
   "state": "STOPPED",
-  "sinceUtc": "2026-02-19T18:30:00Z",
+  "sinceUtc": "2026-03-27T18:30:00Z",
   "monitorings": [],
-  "stoppedAtUtc": "2026-02-19T18:30:00Z",
+  "stoppedAtUtc": "2026-03-27T18:30:00Z",
   "stoppedBy": "admin@empresa.com"
 }
 ```
@@ -1816,13 +1819,13 @@ State STOPPED:
 **Figma values for RUNNING state:**
 
 - Status indicator: `* RUNNING` (green)
-- Since: `19/02/2026 10:00` (sinceUtc `2026-02-19T13:00:00Z` converted to BRT UTC-3)
+- Since: `27/03/2026 10:00` (sinceUtc `2026-03-27T13:00:00Z` converted to BRT UTC-3)
 - Items table: 5 rows as above
 
 **Figma values for STOPPED state:**
 
 - Status indicator: `o STOPPED` (gray)
-- Since: `19/02/2026 15:30` (stoppedAtUtc `2026-02-19T18:30:00Z` converted to BRT UTC-3)
+- Since: `27/03/2026 15:30` (stoppedAtUtc `2026-03-27T18:30:00Z` converted to BRT UTC-3)
 - Stopped by: `admin@empresa.com`
 
 ---
@@ -1879,10 +1882,10 @@ Use this table as a single reference when laying out all three sub-routes in Fig
 
 | File Name | Status | Created | Parsed | Activated |
 |-----------|--------|---------|--------|-----------|
-| SubstationXYZ_2026.scd | `* ACTIVE` (green) | 18/02/2026 09:15 | 18/02/2026 09:16 | 18/02/2026 09:20 |
-| PUPC_3B_20260201.CID | `o PARSED` (amber) | 20/02/2026 14:30 | 20/02/2026 14:31 | - |
-| L90_DIG-Lab_20260129.CID | `! STALLED` (orange) | 17/02/2026 09:15 | - | - |
-| SubstationXYZ_2025.scd | `o INACTIVE` (gray) | 10/01/2026 08:00 | 10/01/2026 08:02 | 10/01/2026 08:10 |
+| SubstationXYZ_2026.scd | `* ACTIVE` (green) | 26/03/2026 09:15 | 26/03/2026 09:16 | 26/03/2026 09:20 |
+| PUPC_3B_20260201.CID | `o PARSED` (amber) | 28/03/2026 14:30 | 28/03/2026 14:31 | - |
+| DUCD_3T3.CID | `! STALLED` (orange) | 25/03/2026 09:15 | - | - |
+| SubstationXYZ_2025.scd | `o INACTIVE` (gray) | 15/02/2026 08:00 | 15/02/2026 08:02 | 15/02/2026 08:10 |
 
 **/settings/scd -- inline expansion (ACTIVE SCD):**
 
@@ -1890,8 +1893,8 @@ Use this table as a single reference when laying out all three sub-routes in Fig
 |--------|-------|
 | Substation | SubstationXYZ |
 | Status | `* ACTIVE` |
-| Parsed | 18/02/2026 09:16 |
-| Activated | 18/02/2026 09:20 |
+| Parsed | 26/03/2026 09:16 |
+| Activated | 26/03/2026 09:20 |
 | Source files | SubstationXYZ_2026.scd (+41 CID) |
 | IEDs Real | 42 |
 | IEDs Proxy | 161 |
@@ -1932,8 +1935,8 @@ Use this table as a single reference when laying out all three sub-routes in Fig
 | Field | Value |
 |-------|-------|
 | State | `* RUNNING` (green) |
-| Since | 19/02/2026 10:00 |
-| Items | SV/LDTM1, GOOSE/GoCB01, PTP/L90_DIG, MMS/192.168.110.104, SNMP/192.168.110.105 (all running) |
+| Since | 27/03/2026 10:00 |
+| Items | SV/LDTM1, GOOSE/GoCB01, PTP/DUCD_3T3, MMS/192.168.110.104, SNMP/192.168.110.105 (all running) |
 | Button | `[Stop Monitoring]` |
 
 **/settings/mib -- MIB table rows:**

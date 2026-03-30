@@ -4,7 +4,7 @@
 
 Visualizar o status de sincronizacao temporal PTP (Precision Time Protocol) dos IEDs da subestacao IEC 61850. Esta tela combina **dados estaticos do SCD** (nos logicos LTMS — Logical Node for Time Management Supervision) com **metricas PTP em tempo real** coletadas pelo motor de monitoramento, permitindo que o operador acompanhe a acuracia temporal de cada IED e identifique rapidamente degradacoes ou perdas de sincronismo.
 
-A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), MU320E_LAB (merging unit), MU_360_1 (merging unit) e T60_DIG (rele de protecao de transformador) — todos equipados com o no logico **LTMS1** que expoe os Data Attributes `TmAcc` (acuracia temporal em nanossegundos) e `TmSrc` (fonte de tempo: GPS, PTP, NTP, etc.). A frequencia do sistema e 60 Hz (padrao brasileiro/norte-americano).
+A subestacao monitorada possui 42 IEDs — incluindo DUCD_3T3 (C60), DUPC_3L1 (L90), DUPC_0B (B30), MU1_0P3 (MU), MU2_3T3 (MU), PUPC_3P1 (C60) — todos equipados com o no logico **LTMS1** que expoe os Data Attributes `TmAcc` (acuracia temporal em nanossegundos) e `TmSrc` (fonte de tempo: GPS, PTP, NTP, etc.). A frequencia do sistema e 60 Hz (padrao brasileiro/norte-americano).
 
 ---
 
@@ -15,34 +15,41 @@ A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), M
 ```
 +-------------------------------------------------------------------------------------------------+
 |  +--- Header Global (ver 00-navegacao-global.md) ----------------------------------------+      |
-|  |  [Logo NMS]   Subestacao: MU_360_1     Mon: * RUNNING          operador@empresa.com   |      |
+|  |  [Logo NMS]   Subestacao: SE Exemplo   Mon: * RUNNING          operador@empresa.com   |      |
 |  +---------------------------------------------------------------------------------------+      |
 +----------+--------------------------------------------------------------------------------------+
 | SIDEBAR  |                                                                                      |
 |          |  +--- Grandmaster Clock ----------------------------------------------------  +      |
 |   Topol. |  |                                                                            |      |
 |   Alm    |  |  ID: 001e8c-fffe-650da0            Status: * Sincronizado                  |      |
-| > Sinc   |  |  Ultima atualizacao: 19/02/2026 14:32:01                                   |      |
+| > Sinc   |  |  Ultima atualizacao: 27/03/2026 14:32:01                                   |      |
 |   Red    |  |                                                                            |      |
 |   Com    |  +----------------------------------------------------------------------------+      |
 |   SNMP   |                                                                                      |
 |   Cfg    |  +--- IEDs - Status PTP ----------------------------------------------------- +      |
 |          |  |                                                                            |      |
-|          |  |  +- L90_DIG ----------------- +     +- T60_DIG ----------------- +         |      |
+|          |  |  +- DUCD_3T3 ---------------- +     +- DUPC_3L1 ---------------- +         |      |
 |          |  |  | * Sincronizado             |     | * Sincronizado             |         |      |
 |          |  |  | Acuracia: 120 ns           |     | Acuracia: 95 ns            |         |      |
 |          |  |  | Fonte: PTP                 |     | Fonte: PTP                 |         |      |
-|          |  |  | GE Multilin . L90          |     | GE Vernova . T60           |         |      |
+|          |  |  | GE Vernova . C60           |     | GE Vernova . L90           |         |      |
 |          |  |  +----------------------------+     +----------------------------+         |      |
 |          |  |                                                                            |      |
-|          |  |  +- MU_360_1 ---------------- +     +- MU320E_LAB -------------- +         |      |
-|          |  |  | ! Degradado                |     | o Sem dados                |         |      |
-|          |  |  | Acuracia: 5200 ns          |     | Acuracia: -                |         |      |
-|          |  |  | Fonte: PTP                 |     | Fonte: -                   |         |      |
-|          |  |  | GE Vernova . MU360         |     | GE . Measurement           |         |      |
+|          |  |  +- DUPC_0B ----------------- +     +- MU1_0P3 ----------------- +         |      |
+|          |  |  | * Sincronizado             |     | ! Degradado                |         |      |
+|          |  |  | Acuracia: 80 ns            |     | Acuracia: 5200 ns          |         |      |
+|          |  |  | Fonte: PTP                 |     | Fonte: PTP                 |         |      |
+|          |  |  | GE Vernova . B30           |     | GE Vernova . MU            |         |      |
 |          |  |  +----------------------------+     +----------------------------+         |      |
 |          |  |                                                                            |      |
-|          |  |  Nota: Grid 2x2 responsivo. Cada card e clicavel (abre drawer).            |      |
+|          |  |  +- MU2_3T3 ----------------- +     +- PUPC_3P1 ---------------- +         |      |
+|          |  |  | o Sem dados                |     | * Sincronizado             |         |      |
+|          |  |  | Acuracia: -                |     | Acuracia: 150 ns           |         |      |
+|          |  |  | Fonte: -                   |     | Fonte: PTP                 |         |      |
+|          |  |  | GE Vernova . MU            |     | GE Vernova . C60           |         |      |
+|          |  |  +----------------------------+     +----------------------------+         |      |
+|          |  |                                                                            |      |
+|          |  |  Nota: Grid 3x2 responsivo. Cada card e clicavel (abre drawer).            |      |
 |          |  |  Layout se ajusta a 1 coluna em telas estreitas.                           |      |
 |          |  |                                                                            |      |
 |          |  +----------------------------------------------------------------------------+      |
@@ -53,21 +60,23 @@ A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), M
 |          |  |  5000 +                          /\                                        |      |
 |          |  |  4000 +                         /  \                                       |      |
 |          |  |  3000 +                        /    \                                      |      |
-|          |  |  2000 +         /\            /      \                -- MU_360_1          |      |
+|          |  |  2000 +         /\            /      \               -- MU1_0P3            |      |
 |          |  |  1000 +--------/--\----------/--------\---- -- Limiar (1000 ns)            |      |
 |          |  |   500 +-------/----\--------/----------\--                                 |      |
-|          |  |     0 +------------------------------------ -- L90_DIG                     |      |
-|          |  |       +------------------------------------ -- T60_DIG                     |      |
+|          |  |     0 +------------------------------------ -- DUCD_3T3                    |      |
+|          |  |       +------------------------------------ -- DUPC_3L1                    |      |
 |          |  |        10:00   11:00   12:00   13:00   14:00                               |      |
 |          |  |                                                                            |      |
 |          |  |  +----------------------------------------------------------------------+  |      |
 |          |  |  |  {IED v}           [De: ____]    [Ate: ____]    [Limpar]             |  |      |
 |          |  |  |  Opcoes:                                                             |  |      |
 |          |  |  |  o Todos                                                             |  |      |
-|          |  |  |  o L90_DIG                                                           |  |      |
-|          |  |  |  o T60_DIG                                                           |  |      |
-|          |  |  |  o MU_360_1                                                          |  |      |
-|          |  |  |  o MU320E_LAB                                                        |  |      |
+|          |  |  |  o DUCD_3T3                                                          |  |      |
+|          |  |  |  o DUPC_3L1                                                          |  |      |
+|          |  |  |  o DUPC_0B                                                           |  |      |
+|          |  |  |  o MU1_0P3                                                           |  |      |
+|          |  |  |  o MU2_3T3                                                           |  |      |
+|          |  |  |  o PUPC_3P1                                                          |  |      |
 |          |  |  +----------------------------------------------------------------------+  |      |
 |          |  |                                                                            |      |
 |          |  |  Nota: Grafico de linhas com uma serie por IED. Eixo Y = acuracia (ns),    |      |
@@ -83,7 +92,7 @@ A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), M
 **Detalhamento dos componentes do estado principal:**
 
 - **Card Grandmaster Clock:** Barra informativa no topo da area de conteudo exibindo o identificador do relogio grandmaster PTP, status de sincronizacao e timestamp da ultima atualizacao recebida. O `grandmasterId` vem do campo `grandmasterId` da resposta de metricas PTP.
-- **Grid de IED cards (2x2):** Cada card representa um IED com no LTMS. Exibe indicador de estado (icone colorido + texto), acuracia temporal (`TmAcc` em ns), fonte de tempo (`TmSrc`), vendor e tipo do IED. Clique no card abre o drawer de detalhe. O grid se adapta a 1 coluna em telas estreitas.
+- **Grid de IED cards (3x2):** Cada card representa um IED com no LTMS. Exibe indicador de estado (icone colorido + texto), acuracia temporal (`TmAcc` em ns), fonte de tempo (`TmSrc`), vendor e tipo do IED. Clique no card abre o drawer de detalhe. O grid se adapta a 1 coluna em telas estreitas.
 - **Grafico de serie temporal:** Grafico de linhas mostrando a evolucao da acuracia PTP (eixo Y, em nanossegundos) ao longo do tempo (eixo X). Cada IED e representado por uma serie (cor distinta). Uma linha tracejada horizontal indica o limiar de acuracia aceitavel. Filtros permitem selecionar IED especifico e intervalo de tempo (`fromUtc`/`toUtc`).
 
 ---
@@ -92,19 +101,19 @@ A subestacao monitorada possui 4 IEDs — L90_DIG (rele de protecao de linha), M
 
 Abre pela direita quando o usuario clica em um card de IED. Ocupa aproximadamente 40% da largura da area de conteudo. Os cards e o grafico permanecem visiveis ao fundo (com overlay escurecido opcional).
 
-**Exemplo com dados reais do L90_DIG:**
+**Exemplo com dados reais do DUCD_3T3:**
 
 ```
                               +------------------------------------------+
                               | [X]                                      |
                               |                                          |
-                              |  * L90_DIG                               |
+                              |  * DUCD_3T3                              |
                               |  ---------------------------------       |
                               |                                          |
                               |  -- Informacoes do IED --                |
                               |                                          |
-                              |  Vendor:         GE Multilin             |
-                              |  Tipo:           L90                     |
+                              |  Vendor:         GE Vernova              |
+                              |  Tipo:           C60                     |
                               |  Firmware:       8.60                    |
                               |                                          |
                               |  -- Sincronismo (LTMS1) --               |
@@ -199,7 +208,7 @@ Duas variantes de estado vazio sao possiveis nesta tela:
 ```
 +------------------------------------------------------------------------------------------------+
 |  +--- Header Global -------------------------------------------------------------------+       |
-|  |  [Logo NMS]   Subestacao: MU_360_1     Mon: * RUNNING       operador@empresa.com    |       |
+|  |  [Logo NMS]   Subestacao: SE Exemplo    Mon: * RUNNING       operador@empresa.com    |       |
 |  +-------------------------------------------------------------------------------------+       |
 +----------+-------------------------------------------------------------------------------------+
 | SIDEBAR  |                                                                                     |
@@ -243,7 +252,7 @@ Duas variantes de estado vazio sao possiveis nesta tela:
 | **Indicador de estado do IED** | Icone + texto indicando o estado de sincronismo: `● Sincronizado` (verde), `⚠ Degradado` (amarelo), `✕ Sem sincronismo` (vermelho), `○ Sem dados` (cinza) | Derivado de `TmAcc` vs limiar configurado |
 | **Grafico de serie temporal** | Grafico de linhas (area principal). Eixo Y: acuracia em nanossegundos. Eixo X: tempo. Uma serie (linha) por IED com cor distinta. Linha tracejada horizontal indicando o limiar de acuracia. Suporte a hover (tooltip com timestamp, IED, valor). | `GET /protocols/PTP/metrics?fromUtc=...&toUtc=...` → `MetricPointListResponse.items[]` |
 | **Linha de limiar no grafico** | Linha horizontal tracejada no grafico indicando o limiar de acuracia aceitavel (ex: 1000 ns). Valores acima do limiar indicam degradacao. | Valor configuravel (futura implementacao) ou constante definida no frontend |
-| **Filtro de IED no grafico** | Dropdown `{IED ▼}` acima do grafico para selecionar qual IED exibir (ou todos). Opcoes: "Todos", "L90_DIG", "T60_DIG", "MU_360_1", "MU320E_LAB". | Lista de IEDs de `GET /scds/{scdId}/IEDS` |
+| **Filtro de IED no grafico** | Dropdown `{IED v}` acima do grafico para selecionar qual IED exibir (ou todos). Opcoes: "Todos", "DUCD_3T3", "DUPC_3L1", "DUPC_0B", "MU1_0P3", "MU2_3T3", "PUPC_3P1" (e demais IEDs). | Lista de IEDs de `GET /scds/{scdId}/IEDS` |
 | **Filtro de periodo no grafico** | Campos `[De: ____]` e `[Ate: ____]` com date-time picker. Mapeiam para `fromUtc`/`toUtc` na chamada da API. Botao `[Limpar]` reseta ao periodo padrao (ultimas 4 horas). | Input do usuario → parametros `fromUtc`/`toUtc` da API |
 | **Drawer de detalhe do IED** | Painel lateral direito (~40% largura). Contem secoes: informacoes do IED, sincronismo (LTMS), metricas PTP (tabela chave-valor), historico de acuracia (mini grafico). | Multiplos endpoints (ver secao Dados) |
 | **Tabela de metricas PTP no drawer** | Tabela chave-valor dinamica renderizada a partir do campo `metrics` (additionalProperties) do `MetricPoint`. Chaves comuns: offset, delay, stepCount, grandmasterId, clockClass. O frontend nao faz hardcode de chaves. | `GET /protocols/PTP/metrics` → `MetricPoint.metrics` filtrado por IED |
@@ -258,8 +267,8 @@ Duas variantes de estado vazio sao possiveis nesta tela:
 
 | # | Metodo | Endpoint | Uso na tela | Campos utilizados | Exemplo de chamada |
 |---|---|---|---|---|---|
-| 1 | `GET` | `/api/v1/scds/{scdId}/IEDS` | Dados estaticos dos IEDs incluindo nos LTMS (vendor, tipo, firmware, logical nodes). Cacheavel — so muda quando o SCD ativo muda. | `data` (object) — contem por IED: `vendor`, `type`, `firmware`, logical nodes (incluindo LTMS1 com `TmAcc`, `TmSrc`) | `GET /api/v1/scds/181b236a/IEDS` → Dados de L90_DIG, MU320E_LAB, MU_360_1, T60_DIG com seus nos LTMS1 |
-| 2 | `GET` | `/api/v1/protocols/PTP/metrics` | Serie temporal de metricas PTP. Utilizado para popular o grafico de acuracia e os valores atuais nos cards. Chamada periodica (polling). | Query: `fromUtc`, `toUtc`, `page`, `pageSize`, `sort`, `order`. Response: `MetricPointListResponse` → `items[]` (cada item: `timestampUtc`, `hostId`, `metrics` com additionalProperties) | `GET /api/v1/protocols/PTP/metrics?fromUtc=2026-02-19T10:00:00Z&toUtc=2026-02-19T14:32:00Z&page=1&pageSize=200&sort=timestampUtc&order=asc` |
+| 1 | `GET` | `/api/v1/scds/{scdId}/IEDS` | Dados estaticos dos IEDs incluindo nos LTMS (vendor, tipo, firmware, logical nodes). Cacheavel — so muda quando o SCD ativo muda. | `data` (object) — contem por IED: `vendor`, `type`, `firmware`, logical nodes (incluindo LTMS1 com `TmAcc`, `TmSrc`) | `GET /api/v1/scds/181b236a/IEDS` → Dados de DUCD_3T3, DUPC_3L1, DUPC_0B, MU1_0P3, MU2_3T3, PUPC_3P1 (e demais 42 IEDs) com seus nos LTMS1 |
+| 2 | `GET` | `/api/v1/protocols/PTP/metrics` | Serie temporal de metricas PTP. Utilizado para popular o grafico de acuracia e os valores atuais nos cards. Chamada periodica (polling). | Query: `fromUtc`, `toUtc`, `page`, `pageSize`, `sort`, `order`. Response: `MetricPointListResponse` → `items[]` (cada item: `timestampUtc`, `hostId`, `metrics` com additionalProperties) | `GET /api/v1/protocols/PTP/metrics?fromUtc=2026-03-27T10:00:00Z&toUtc=2026-03-27T14:32:00Z&page=1&pageSize=200&sort=timestampUtc&order=asc` |
 | 3 | `GET` | `/api/v1/protocols/PTP/data` | Dados PTP persistidos e historicos. Utilizado para consulta de dados consolidados. | Query: `type`, `scdId`, `page`, `pageSize`, `sort`, `order`. Response: `ScdProtocolDetailsResponse` → `data` (object, additionalProperties) | `GET /api/v1/protocols/PTP/data?scdId=181b236a&page=1&pageSize=50` |
 
 **Schemas relevantes:**
@@ -334,9 +343,9 @@ Duas variantes de estado vazio sao possiveis nesta tela:
 ### 2. Clique em card de IED (abrir drawer)
 
 ```
-> Usuario clica em um card de IED (ex: L90_DIG)
+> Usuario clica em um card de IED (ex: DUCD_3T3)
 > Frontend coleta dados estaticos do IED ja carregados (cache etapa 2)
-> Frontend filtra MetricPoints por hostId == "L90_DIG" (cache etapa 3)
+> Frontend filtra MetricPoints por hostId == "DUCD_3T3" (cache etapa 3)
 > Drawer abre pela direita com animacao de slide-in
 > Exibe:
      - Informacoes do IED: vendor, tipo, firmware
@@ -348,7 +357,7 @@ Duas variantes de estado vazio sao possiveis nesta tela:
 ### 3. Filtrar grafico por IED
 
 ```
-> Usuario seleciona um IED no dropdown {IED v} (ex: "MU_360_1")
+> Usuario seleciona um IED no dropdown {IED v} (ex: "MU1_0P3")
 > Grafico atualiza para exibir apenas a serie do IED selecionado
 > As outras series ficam ocultas (mas os dados permanecem em memoria)
 > Se selecionar "Todos": todas as series sao exibidas novamente
@@ -449,7 +458,7 @@ Duas variantes de estado vazio sao possiveis nesta tela:
 ## Referencias
 
 - `00-navegacao-global.md` — Layout master, header, sidebar, drawer, componentes reutilizaveis, convencoes visuais e RBAC
-- `01-tela-inicial.md` — IEDs na topologia de rede (os mesmos 4 IEDs aparecem nesta tela com foco em sincronismo PTP)
+- `01-tela-inicial.md` — IEDs na topologia de rede (os mesmos 42 IEDs aparecem nesta tela com foco em sincronismo PTP)
 - `02-alarmes.md` — Alarmes do tipo `PTP_SYNC_LOSS` podem ser gerados quando o sincronismo PTP e perdido
 - `07-configuracao.md` — Configuracao do monitoramento (start/stop), upload de SCD, destino do link no estado vazio
-- `docs/parsed-scd/scd.md` — Dados reais da subestacao: 4 IEDs com nos LTMS1 (TmAcc, TmSrc)
+- `docs/parsed-scd/scd.md` — Dados reais da subestacao: 42 IEDs com nos LTMS1 (TmAcc, TmSrc)
