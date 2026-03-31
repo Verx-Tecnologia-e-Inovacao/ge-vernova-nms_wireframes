@@ -707,5 +707,5 @@ Contagem de alarmes por severidade. Quatro chamadas paralelas, uma por severidad
 - `02-alarmes.md` — Tela de alarmes (detalhamento dos alarmes exibidos como contadores no dashboard)
 - `07-configuracao.md` — Tela de configuracao (destino do botao `[Ir para Configuracao]` no estado vazio)
 - `08-autenticacao.md` — Tela de login (origem do redirect para esta tela apos autenticacao)
-- `docs/extras-2026-03-16/2.2. Documentacao SCD.md` — Parser SCD, estrutura do Summary, Diagnostics, Proxy Nodes
+- `docs/parsers/scd-parser.md` — Parser SCD, estrutura do Summary, Diagnostics, Proxy Nodes
 - `docs/api/swagger-nms-v1.0.1.yaml` — Especificacao REST API (endpoints de monitoring, alarms, SCDs)

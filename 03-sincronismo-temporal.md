@@ -461,4 +461,4 @@ Duas variantes de estado vazio sao possiveis nesta tela:
 - `01-tela-inicial.md` — IEDs na topologia de rede (os mesmos 42 IEDs aparecem nesta tela com foco em sincronismo PTP)
 - `02-alarmes.md` — Alarmes do tipo `PTP_SYNC_LOSS` podem ser gerados quando o sincronismo PTP e perdido
 - `07-configuracao.md` — Configuracao do monitoramento (start/stop), upload de SCD, destino do link no estado vazio
-- `docs/parsed-scd/scd.md` — Dados reais da subestacao: 42 IEDs com nos LTMS1 (TmAcc, TmSrc)
+- `docs/examples/example-scd.json` — Dados reais da subestacao: 42 IEDs com nos LTMS1 (TmAcc, TmSrc)

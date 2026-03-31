@@ -570,5 +570,5 @@ Abre pela direita quando o usuario clica em uma linha da tabela. Ocupa aproximad
 
 - `00-navegacao-global.md` — Layout master, padroes de tabela, drawer, paginacao, barra de filtros, convencoes visuais globais
 - `01-tela-inicial.md` — Badges de alarmes nos IEDs da topologia (os contadores de alarme da tela inicial linkam para esta tela com filtros pre-aplicados)
-- `docs/extras/2026-03-27/1. Alarmes GOOSE v1.2.md` — Taxonomia de alarmes GOOSE v1.2 (fonte da verdade: campos, alarm_codes, exemplos JSON, state machine)
+- `docs/alarms/goose-alarms-v1.2.md` — Taxonomia de alarmes GOOSE v1.2 (fonte da verdade: campos, alarm_codes, exemplos JSON, state machine)
 - `docs/extras/2026-03-26/1. Alarmes GOOSE v1.1.md` — Taxonomia v1.1 (historico, substituida pela v1.2)

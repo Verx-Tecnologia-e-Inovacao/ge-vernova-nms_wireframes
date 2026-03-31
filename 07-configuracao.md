@@ -1952,5 +1952,5 @@ Use this table as a single reference when laying out all three sub-routes in Fig
 
 - `00-navegacao-global.md` -- Master layout, header, sidebar, RBAC conventions, ASCII symbol legend
 - `09-dashboard.md` -- Dashboard wireframe (references same SCD summary data for dashboard cards)
-- `docs/extras-2026-03-16/2.2. Documentacao SCD.md` -- Parser SCD documentation: Summary schema, Diagnostics types and JSON examples
+- `docs/parsers/scd-parser.md` -- Parser SCD documentation: Summary schema, Diagnostics types and JSON examples
 - `docs/api/swagger-nms-v1.0.1.yaml` -- REST API spec: `ScdViewEnum` (VALIDATIONS), `MonitoringStatusResponse`, `Mib`, `ScdStatus`, `MonitoringState`

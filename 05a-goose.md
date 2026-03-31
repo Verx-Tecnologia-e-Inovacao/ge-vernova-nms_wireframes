@@ -776,5 +776,5 @@ Diagnostico: Sem PRP/HSR nesta captura
 - `05b-sampled-values.md` — Pagina Sampled Values (estrutura similar, mesma familia de protocolos)
 - `05c-mms.md` — Pagina MMS (mesma familia de protocolos)
 - `07-configuracao.md` — Tela de configuracao em `/settings/scd` (destino do link no estado vazio)
-- `docs/extras-2026-03-16/3.2. Documentacao GOOSE.md` — Parser GOOSE: estrutura JSON, metricas por interface, contadores, timing, qualidade, redundancia PRP/HSR
-- `docs/extras-2026-03-16/3. Exemplo GOOSE.json` — Exemplo real de saida do parser GOOSE
+- `docs/parsers/goose-parser.md` — Parser GOOSE: estrutura JSON, metricas por interface, contadores, timing, qualidade, redundancia PRP/HSR
+- `docs/examples/example-goose.json` — Exemplo real de saida do parser GOOSE

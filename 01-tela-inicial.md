@@ -796,7 +796,6 @@ Nota: Proxies nao participam da logica de prioridade — possuem estado visual f
 - `05-comunicacao-dados.md` — Telas de protocolo: `/goose` e `/sampled-values` (destino do link no drawer de edge)
 - `07-configuracao.md` — Tela de configuracao em `/settings/scd` (destino do link « Ir para Configuracao » no estado vazio)
 - `08-autenticacao.md` — Tela de login (apos autenticacao, redirect vai para Dashboard `/`, nao mais para Topologia)
-- `docs/extras-2026-03-16/2.2. Documentacao SCD.md` — Parser SCD: estrutura de Networks (nodes, edges, subnets), Proxy Nodes, Summary
-- `docs/extras-2026-03-16/2. Exemplo SCD.json` — Exemplo real: 42 IEDs, 161 proxies, 9 subnets, 269 edges
-- `docs/parsed-scd/scd.md` — Dados da subestacao de exemplo (42 IEDs, 9 sub-redes)
+- `docs/parsers/scd-parser.md` — Parser SCD: estrutura de Networks (nodes, edges, subnets), Proxy Nodes, Summary
+- `docs/examples/example-scd.json` — Exemplo real: 42 IEDs, 161 proxies, 9 subnets, 269 edges
 - `docs/structure-proposal/frontend-recommendations.md` — Estrategia de renderizacao de topologia (carregamento progressivo, virtualizacao, cache, zoom semantico)

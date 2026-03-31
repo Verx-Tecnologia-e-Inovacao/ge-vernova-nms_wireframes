@@ -796,5 +796,5 @@ Os exemplos abaixo representam dados realistas para popular os componentes visua
 - `05a-goose.md` — Pagina GOOSE (estrutura similar, mesma familia de protocolos)
 - `05c-mms.md` — Pagina MMS (mesma familia de protocolos)
 - `07-configuracao.md` — Tela de configuracao em `/settings/scd` (destino do link no estado vazio)
-- `docs/extras-2026-03-16/4.2. Documentacao Parser SV.md` — Parser SV: estrutura JSON, metricas por interface, packet interval, processing time, clock drift, qualidade, redundancia PRP/HSR
-- `docs/extras-2026-03-16/4. Exemplo SV.json` — Exemplo real de saida do parser SV
+- `docs/parsers/sv-parser.md` — Parser SV: estrutura JSON, metricas por interface, packet interval, processing time, clock drift, qualidade, redundancia PRP/HSR
+- `docs/examples/example-sv.json` — Exemplo real de saida do parser SV

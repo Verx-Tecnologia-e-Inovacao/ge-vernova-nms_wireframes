@@ -408,7 +408,7 @@ If a stream has no PRP data and no HSR data (`prp_lans=[]` and `hsr_paths=[]` on
 | 2 | `GET` | `/api/v1/protocols/GOOSE/metrics` | GOOSE streams with redundancy data | `items[].goose_id`, `items[].publisher`, `items[].dest_mac`, `items[].subnet`, `items[].stats.eth0.prp_lans`, `items[].stats.eth0.hsr_paths`, `items[].stats.eth1.prp_lans`, `items[].stats.eth1.hsr_paths` |
 | 3 | `GET` | `/api/v1/protocols/SV/metrics` | SV streams with redundancy data | `items[].sv_id`, `items[].publisher`, `items[].dest_mac`, `items[].subnet`, `items[].stats.eth0.prp_lans`, `items[].stats.eth0.hsr_paths`, `items[].stats.eth1.prp_lans`, `items[].stats.eth1.hsr_paths` |
 
-**Note:** The `prp_lans` and `hsr_paths` fields are documented in the parser specs (`docs/extras-2026-03-16/`) but are not yet present in `docs/api/swagger-nms-v1.0.1.yaml`. The Swagger spec will need to be updated to include these fields in the `stats` object when the redundancy feature is implemented.
+**Note:** The `prp_lans` and `hsr_paths` fields are documented in the parser specs (`docs/parsers/`) but are not yet present in `docs/api/swagger-nms-v1.0.1.yaml`. The Swagger spec will need to be updated to include these fields in the `stats` object when the redundancy feature is implemented.
 
 ### Data loading strategy
 
@@ -1113,8 +1113,8 @@ A time-series chart (ECharts) showing redundancy health over time:
 
 - `00-navegacao-global.md` — Layout master, header, sidebar (item 6: Redundancy at `/redundancy`), drawer, pagination, status indicators, RBAC
 - `05-comunicacao-dados.md` — GOOSE and SV communication monitoring. Uses the same metrics endpoints (`/protocols/GOOSE/metrics`, `/protocols/SV/metrics`) — the redundancy page extracts `prp_lans` and `hsr_paths` from the same data
-- `docs/extras-2026-03-16/3.2. Documentação GOOSE.md` — GOOSE parser documentation, PRP/HSR diagnostic tables, `stats.<interface>` structure
-- `docs/extras-2026-03-16/4.2. Documentação Parser SV.md` — SV parser documentation, PRP/HSR diagnostic tables, `stats.<interface>` structure
-- `docs/extras-2026-03-16/3. Exemplo GOOSE.json` — Real GOOSE data with `prp_lans` and `hsr_paths` values
-- `docs/extras-2026-03-16/4. Exemplo SV.json` — Real SV data with `prp_lans` and `hsr_paths` values
+- `docs/parsers/goose-parser.md` — GOOSE parser documentation, PRP/HSR diagnostic tables, `stats.<interface>` structure
+- `docs/parsers/sv-parser.md` — SV parser documentation, PRP/HSR diagnostic tables, `stats.<interface>` structure
+- `docs/examples/example-goose.json` — Real GOOSE data with `prp_lans` and `hsr_paths` values
+- `docs/examples/example-sv.json` — Real SV data with `prp_lans` and `hsr_paths` values
 - `docs/api/swagger-nms-v1.0.1.yaml` — API spec (MetricPointListResponse, ScdStatus)
